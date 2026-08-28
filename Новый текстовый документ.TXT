@@ -1,0 +1,2085 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>История & Shinri Trial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:ital,wght@0,700;1,700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* === ПЕРСОНАЛЬНЫЕ ЦВЕТА === */
+        :root {
+            --purple: #c586ff; 
+            --red: #e62e2e;    
+            --white: #ffffff;  
+            --black: #080808;  
+            --halloween-orange: #ff7518;
+            --gold: #ffd700;
+            --ice-blue: #8bb3f4; 
+        }
+
+        * { 
+            box-sizing: border-box; margin: 0; padding: 0; 
+            -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+        }
+        body { background-color: var(--black); font-family: 'Roboto', sans-serif; color: #ffffff; overflow-x: hidden; margin: 0;}
+
+        /* --- БЛОКИРОВКА СКРОЛЛА И ГЛАВНЫЙ ЭКРАН --- */
+        .scroll-track { height: 350vh; position: relative; }
+        .sticky-hero {
+            position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden;
+            background-color: var(--black);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 4vw));
+            z-index: 5;
+        }
+
+        .hero-main-text {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            font-family: 'Oswald', sans-serif; font-size: 8vw; 
+            color: #ffffff; text-transform: uppercase; font-weight: 700;
+            text-align: center; width: 90%; z-index: 1; opacity: 1; 
+            will-change: transform, opacity;
+        }
+        
+        .side-left {
+            position: absolute; top: 0; left: 0; width: 60vw; height: 100%; 
+            background-image: url('Katyakovboy_2.jpg'); background-size: cover; background-position: center; 
+            clip-path: polygon(0 0, 83.3% 0, 66.6% 100%, 0 100%); 
+            z-index: 2; transform: translateX(-100%); will-change: transform;
+        }
+        .side-left::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0) 100%);
+        }
+        
+        .side-right {
+            position: absolute; top: 0; right: 0; width: 60vw; height: 100%; 
+            background-image: url('vadimbased_2.jpg'); background-size: cover; background-position: center; 
+            clip-path: polygon(18.3% 0, 100% 0, 100% 100%, 1.6% 100%); 
+            z-index: 2; transform: translateX(100%); will-change: transform;
+        }
+        .side-right::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(270deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0) 100%);
+        }
+        
+        .content-overlay { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            pointer-events: none; z-index: 3; opacity: 0; will-change: opacity;
+        }
+        
+        .title-left { 
+            position: absolute; bottom: 15%; left: 5%; 
+            font-family: 'Oswald', sans-serif; font-size: 14vw; line-height: 1; 
+            color: var(--purple); text-shadow: 0px 5px 30px rgba(0,0,0,0.9); 
+        }
+        .title-right { 
+            position: absolute; top: 40%; right: 5%; 
+            font-family: 'Oswald', sans-serif; font-size: 14vw; line-height: 1; 
+            color: var(--white); text-shadow: 0px 5px 30px rgba(0,0,0,0.9); 
+        }
+
+        .bottom-info { position: absolute; bottom: 10%; left: 5%; width: 35%; pointer-events: auto; }
+        .btn {
+            display: inline-block; background-color: #ffffff; color: #000000; padding: 15px 30px;
+            font-family: 'Roboto', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; text-decoration: none; transition: 0.3s;
+            box-shadow: 0px 5px 20px rgba(0,0,0,0.5);
+        }
+        .btn:hover { background-color: var(--red); color: #fff; }
+
+        /* --- БЛОКИ ОПИСАНИЯ ВНИЗУ --- */
+        .split-section {
+            position: relative; width: 100%; min-height: 100vh; display: flex; align-items: center; background-color: var(--black); overflow: hidden;
+            clip-path: polygon(0 0, 100% 4vw, 100% 100%, 0 calc(100% - 4vw)); margin-top: -2vw; padding-top: 6vw; padding-bottom: 6vw; z-index: 1;
+        }
+        .split-section.reverse { clip-path: polygon(0 0, 100% 4vw, 100% 100%, 0 100%); }
+        .split-text { width: 45%; padding-left: 5%; padding-right: 5%; z-index: 2; display: flex; flex-direction: column; gap: 15px; }
+        .split-img { position: absolute; top: 0; right: 0; width: 55%; height: 100%; z-index: 1; clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%); }
+        .split-section.reverse .split-text { margin-left: 55%; width: 45%; padding-left: 5%; padding-right: 5%; }
+        .split-section.reverse .split-img { left: 0; right: auto; width: 55%; clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%); }
+        .img-bg { width: 100%; height: 100%; background-size: cover; background-position: center; }
+
+        .name-title { font-family: 'Oswald', sans-serif; font-size: 8rem; line-height: 0.9; text-transform: uppercase; font-weight: 700; margin: 0; }
+        .username { font-family: 'Roboto', sans-serif; font-size: 14px; font-weight: bold; margin-bottom: 20px; }
+        .desc { font-size: 1.2rem; color: #a0a0a0; line-height: 1.6; max-width: 100%; margin-bottom: 20px; }
+        .tags-wrap { display: flex; flex-wrap: wrap; gap: 10px; }
+        .action-btn { background: transparent; padding: 10px 20px; text-transform: uppercase; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+
+        .theme-red .small-tag { color: var(--red); font-family: 'Oswald', sans-serif; letter-spacing: 1px; font-size: 14px; line-height: 1.4; }
+        .theme-red .name-title { color: #ffffff; }
+        .theme-red .username { color: #ffffff; opacity: 0.7; }
+        .theme-red .action-btn { border: 1px solid var(--red); color: var(--red); }
+        .theme-red .action-btn:hover { background-color: var(--red); color: #000; }
+
+        .theme-purple .small-tag { color: var(--purple); font-family: 'Oswald', sans-serif; letter-spacing: 1px; font-size: 14px; line-height: 1.4; }
+        .theme-purple .name-title { color: #ffffff; }
+        .theme-purple .username { color: #ffffff; opacity: 0.7; }
+        .theme-purple .action-btn { border: 1px solid var(--purple); color: var(--purple); }
+        .theme-purple .action-btn:hover { background-color: var(--purple); color: #000; }
+
+        /* --- ИНТЕРАКТИВНЫЙ СЛАЙДЕР --- */
+        .interactive-slider-section {
+            position: relative; width: 100%; height: 100vh; background-color: var(--black); overflow: hidden; margin-top: 20px; margin-bottom: 20px; z-index: 1;
+        }
+        .img-compare-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .img-layer { position: absolute; top: 0; left: 0; width: 100vw; height: 100%; display: flex; }
+        .img-half { width: 50%; height: 100%; background-size: cover; background-position: center; }
+        .img-half.left-half { border-right: 2px solid var(--black); }
+        .layer-top { z-index: 2; clip-path: inset(0 100% 0 0); will-change: clip-path; }
+        .slider-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; z-index: 10; cursor: ew-resize; margin: 0; }
+        .slider-handle { position: absolute; top: 0; left: 0; width: 4px; height: 100%; background-color: var(--white); z-index: 5; pointer-events: none; box-shadow: 0 0 15px rgba(0,0,0,0.8); }
+        .slider-handle-btn {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px;
+            background-color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: #000; font-size: 35px; line-height: 1; box-shadow: 0 5px 20px rgba(0,0,0,0.6); padding-bottom: 5px; 
+        }
+
+        /* --- ВСТУПЛЕНИЕ К ИСТОРИИ --- */
+        .history-intro-section {
+            position: relative; width: 100%; min-height: 100vh; display: flex; align-items: center;
+            background: radial-gradient(circle at top left, rgba(230, 46, 46, 0.25), transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(197, 134, 255, 0.25), transparent 40%), var(--black);
+            overflow: hidden; z-index: 1;
+        }
+        .history-intro-content { padding: 0 10%; max-width: 1200px; z-index: 2; }
+        .history-date {
+            display: inline-block; font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; margin-bottom: 20px; background: linear-gradient(90deg, var(--red), var(--purple));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .history-intro-title {
+            font-family: 'Oswald', sans-serif; font-size: 8rem; line-height: 0.9; text-transform: uppercase; font-weight: 700;
+            color: var(--white); margin: 0 0 30px 0; text-shadow: 0px 10px 30px rgba(0,0,0,0.5);
+        }
+        .history-intro-desc { font-family: 'Roboto', sans-serif; font-size: 1.5rem; color: #b0b0b0; line-height: 1.6; max-width: 600px; }
+
+        /* --- СЕТКА С ВЫРЕЗАННОЙ МАТРИЦЕЙ И КАРТАМИ --- */
+        .history-grid-section {
+            background: radial-gradient(ellipse at center, rgba(40, 20, 35, 0.8) 0%, var(--black) 80%);
+            min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 80px 5%; border-top: 1px solid #1a1a1a;
+        }
+        .history-layout { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 100px; width: 100%; max-width: 1800px; align-items: start; }
+        
+        .layout-col { display: flex; flex-direction: column; gap: 50px; position: relative; }
+        .col-center { align-items: center; text-align: center; z-index: 5; }
+        .center-text-group { margin-bottom: 80px; }
+
+        .grid-photo-container {
+            width: 100%; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6); background-color: transparent; position: relative; z-index: 5;
+            cursor: pointer;
+        }
+        .grid-photo { width: 100%; height: 100%; object-fit: fill; display: block; transition: transform 0.5s ease; }
+        .grid-photo-container:hover .grid-photo { transform: scale(1.03); }
+
+        .ref-date { font-family: 'Oswald', sans-serif; font-size: 1.2rem; color: #a0a0a0; letter-spacing: 2px; display: block; margin-bottom: 10px; font-weight: 700; }
+        .ref-title { font-family: 'Oswald', sans-serif; font-size: 6rem; color: #ffffff; line-height: 0.9; text-transform: uppercase; font-weight: 700; margin: 0 0 25px 0; text-shadow: 0px 5px 15px rgba(0,0,0,0.5); }
+        .ref-desc { font-family: 'Roboto', sans-serif; font-size: 1.6rem; color: #b0b0b0; line-height: 1.5; margin: 0; }
+        
+        .grid-desc { font-family: 'Roboto', sans-serif; font-size: 1.5rem; font-weight: 500; color: #e0e0e0; line-height: 1.6; text-align: center; margin: 0; margin-top: 15px; position: relative; z-index: 5; }
+        
+        .tarot-group { margin-top: 80px; width: 100%; display: flex; flex-direction: column; gap: 20px; align-items: center; }
+        .tarot-text { font-family: 'Oswald', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--white); text-transform: uppercase; line-height: 1.4; margin: 0; }
+
+        .matrix-scene { position: relative; width: 100%; display: flex; justify-content: center; align-items: center; padding: 40px 0; }
+        .matrix-img { max-width: 300px; width: 100%; height: auto; border-radius: 15px; z-index: 5; position: relative; box-shadow: 0 0 40px rgba(197, 134, 255, 0.3); }
+        
+        .css-tarot-card {
+            position: absolute; width: 140px; height: 220px; background: linear-gradient(135deg, #1a1a1a 0%, #080808 100%);
+            border: 1px solid rgba(197, 134, 255, 0.4); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: #c586ff; font-family: 'Oswald', sans-serif; text-align: center; box-shadow: 0 15px 30px rgba(0,0,0,0.9); z-index: 2; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .css-tarot-card:hover { transform: scale(1.1) translateY(-15px) !important; z-index: 10; box-shadow: 0 20px 40px rgba(197, 134, 255, 0.3); color: var(--white); }
+        .css-tarot-card span { font-size: 24px; margin-bottom: 10px; }
+        .css-tarot-card p { font-size: 12px; margin: 0; letter-spacing: 1px; }
+
+        .card-1 { top: -20px; left: -140px; transform: rotate(-15deg); }
+        .card-2 { bottom: -10px; left: -180px; transform: rotate(-35deg); }
+        .card-3 { top: 0px; right: -150px; transform: rotate(20deg); }
+        .card-4 { bottom: -20px; right: -160px; transform: rotate(10deg); }
+
+        /* --- БЛОК 1: МУЛЬТФИЛЬМ --- */
+        .video-standalone-section {
+            background-color: var(--black); 
+            min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 50px 5%; border-top: 1px solid #1a1a1a;
+        }
+        
+        .video-content-wrapper { 
+            display: flex; align-items: center; justify-content: space-between; 
+            max-width: 1500px; width: 100%; gap: 120px; z-index: 2; 
+        }
+        
+        .video-container { width: 65%; position: relative; }
+        
+        .video-wrapper {
+            width: 100%; aspect-ratio: 16 / 9; background-color: #000; border: 1px solid #222; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
+            box-shadow: 0 0 100px 10px rgba(138, 43, 226, 0.6), 0 0 150px 30px rgba(65, 105, 225, 0.3), 0 20px 60px rgba(0,0,0,0.9);
+        }
+
+        .video-wrapper span { font-family: 'Oswald', sans-serif; font-size: 24px; color: #555; letter-spacing: 2px; }
+        .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; pointer-events: none; opacity: 0.8;}
+        
+        .video-info { width: 30%; display: flex; flex-direction: column; gap: 15px; padding-right: 20px; }
+        .video-title { font-family: 'Oswald', sans-serif; font-size: 4rem; line-height: 1.1; text-transform: uppercase; font-weight: 700; color: var(--white); margin: 0; text-shadow: 0 5px 20px rgba(0,0,0,0.6); }
+        .video-desc { font-family: 'Roboto', sans-serif; font-size: 1.3rem; color: #a0a0a0; line-height: 1.6; margin-bottom: 10px; }
+        
+        .btn-outline {
+            display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--white); background: transparent; color: var(--white);
+            padding: 15px 30px; font-family: 'Roboto', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: 0.3s; max-width: fit-content;
+        }
+        .btn-outline:hover { background-color: var(--white); color: var(--black); }
+
+        /* --- БЛОК 2: PEAK --- */
+        @keyframes floatPlayer {
+            0%, 100% { transform: translate(-50%, -50%); }
+            50% { transform: translate(-50%, calc(-50% - 12px)); }
+        }
+
+        .peak-section {
+            background-color: #03060d; 
+            width: 100%; min-height: 100vh; position: relative; border-top: 1px solid #1a1a1a;
+            display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden;
+        }
+
+        .peak-header {
+            position: absolute; top: 4%; left: 50%; transform: translateX(-50%);
+            text-align: center; width: 90%; max-width: 900px; z-index: 20; pointer-events: none; 
+        }
+
+        .peak-image-wrapper {
+            position: relative; width: 100%; max-width: 1920px; margin: 0 auto; display: block; line-height: 0; 
+        }
+
+        .peak-image-wrapper::before {
+            content: ''; position: absolute; top: -1px; left: 0; width: 100%; height: 150px;
+            background: linear-gradient(to bottom, #03060d 0%, transparent 100%); z-index: 5; pointer-events: none;
+        }
+
+        .peak-bg-img { width: 100%; height: auto; display: block; }
+
+        .peak-interactive-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10;
+        }
+
+        .peak-player {
+            position: absolute; width: 2.5vw; height: 2.5vw; min-width: 20px; min-height: 20px; max-width: 45px; max-height: 45px; border-radius: 50%;
+            transform: translate(-50%, -50%); box-shadow: inset -5px -5px 10px rgba(0,0,0,0.5), inset 2px 2px 8px rgba(255,255,255,0.4), 0 10px 15px rgba(0,0,0,0.5);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); cursor: pointer; pointer-events: auto;
+        }
+
+        .peak-player::before, .peak-player::after {
+            content: ''; position: absolute; top: 30%; width: 10%; height: 20%; background: #111; border-radius: 50%;
+        }
+        .peak-player::before { left: 25%; }
+        .peak-player::after { right: 25%; }
+
+        .player-name {
+            position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+            font-family: 'Roboto', sans-serif; font-size: 14px; font-weight: 700; white-space: nowrap; transition: 0.3s;
+            pointer-events: none; text-shadow: 0 2px 5px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.6);
+        }
+
+        .player-blue .player-name { color: #8bb3f4; }
+        .player-red .player-name { color: #f26f6f; }
+        .player-yellow .player-name { color: #f5b953; }
+        .player-purple .player-name { color: #d09cf5; }
+
+        .peak-player:hover { 
+            transform: translate(-50%, calc(-50% - 15px)) scale(1.15) !important; animation-play-state: paused;
+            box-shadow: 0 15px 20px rgba(0,0,0,0.8), inset 5px 5px 15px rgba(255,255,255,0.8); 
+        }
+        .peak-player:hover .player-name { font-size: 15px; top: -35px; text-shadow: 0 0 15px rgba(255,255,255,0.5), 0 2px 4px rgba(0,0,0,1); }
+
+        .player-blue { background: #4a90e2; top: 48%; left: 70.3%; animation: floatPlayer 3s ease-in-out infinite; } 
+        .player-red { background: #e74c3c; top: 59%; left: 81.3%; animation: floatPlayer 3.5s ease-in-out infinite 1s; } 
+        .player-yellow { background: #f39c12; top: 79%; left: 35.3%; animation: floatPlayer 4s ease-in-out infinite 0.5s; } 
+        .player-purple { background: #9b59b6; top: 89%; left: 38.3%; animation: floatPlayer 3.2s ease-in-out infinite 1.5s; } 
+
+        /* --- БЛОК 3: R.E.P.O. --- */
+        .repo-section {
+            background-color: var(--black); min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            padding: 50px 5%; border-top: 1px solid #1a1a1a; position: relative; overflow: hidden;
+        }
+
+        .repo-heads-container {
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; margin-bottom: 30px; z-index: 5;
+        }
+
+        .repo-head {
+            position: relative; width: 65px; height: 50px; cursor: pointer;
+            filter: drop-shadow(0 0 15px var(--head-color));
+        }
+
+        .repo-head-top {
+            position: absolute; top: 0; left: 0; width: 100%; height: 75%;
+            background-color: var(--head-color); border-radius: 35px 35px 0 0;
+            transform-origin: left bottom; 
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 2;
+        }
+
+        .repo-head-bottom {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 20%;
+            background-color: var(--head-color); border-radius: 0 0 5px 5px; z-index: 1;
+        }
+
+        .repo-head:hover .repo-head-top {
+            transform: translateY(-15px) rotate(-15deg);
+        }
+
+        .repo-eye {
+            position: absolute; top: 25%; width: 16px; height: 16px;
+            background: #000; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .repo-eye.left { left: 18%; }
+        .repo-eye.right { right: 18%; }
+
+        .repo-pupil {
+            width: 6px; height: 6px; background: #fff; border-radius: 50%;
+            transition: transform 0.1s ease-out;
+        }
+
+        .video-sub-desc { font-size: 0.95rem; color: #777; margin-top: -5px; margin-bottom: 20px; font-style: italic; }
+
+        /* --- БЛОК 4: САНЯ DIH --- */
+        .dih-section {
+            background: 
+                radial-gradient(circle at top right, rgba(0, 229, 255, 0.08), transparent 50%),
+                radial-gradient(circle at bottom left, rgba(0, 229, 255, 0.08), transparent 50%),
+                var(--black);
+        }
+
+        .dih-videos { display: flex; flex-direction: column; gap: 30px; }
+
+        .dih-video-card {
+            width: 100%; aspect-ratio: 16 / 7; background: #000; border: 1px solid #222;
+            border-radius: 12px; position: relative; overflow: hidden; cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6); transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dih-video-card video {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0.7; pointer-events: none; transition: 0.3s;
+        }
+
+        .dih-video-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0, 229, 255, 0.2); }
+        .dih-video-card:hover video { opacity: 1; }
+
+        .play-overlay {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 54px; height: 54px; background: rgba(0,0,0,0.5); border: none; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 24px; color: #fff; padding-left: 4px; 
+            backdrop-filter: blur(5px); z-index: 5; pointer-events: none; opacity: 0; transition: 0.3s;
+        }
+        
+        .grid-photo-container .play-overlay { opacity: 0; transition: 0.3s; }
+        .grid-photo-container:hover .play-overlay { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+        .dih-video-card:hover .play-overlay { background: rgba(0,0,0,0.7); transform: translate(-50%, -50%) scale(1.1); }
+
+        .dih-link {
+            color: #00e5ff; text-decoration: underline; text-decoration-color: rgba(0, 229, 255, 0.4);
+            text-underline-offset: 8px; cursor: pointer; transition: all 0.3s ease; display: inline-block;
+        }
+        .dih-link:hover { color: #fff; text-decoration-color: #fff; text-shadow: 0 0 20px #00e5ff; transform: translateY(-2px); }
+
+        /* --- БЛОК 5: ТИПОГРАФИКА (ПОКУПКА) --- */
+        .typography-break-section {
+            background-color: #0d0d0c; 
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(230, 46, 46, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 100% 100%, rgba(197, 134, 255, 0.2) 0%, transparent 50%);
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            padding: 100px 5%; position: relative; overflow: hidden; border-top: 1px solid #1a1a1a;
+        }
+
+        .typo-content {
+            position: relative; z-index: 2; width: 100%; max-width: 1800px; margin: 0 auto;
+            display: flex; flex-direction: column; align-items: flex-start;
+        }
+
+        .typo-date {
+            font-family: 'Oswald', sans-serif; color: #f35b25; font-size: 1.1rem;
+            letter-spacing: 3px; text-transform: uppercase; font-weight: 700;
+            margin-bottom: 30px; display: inline-block; margin-left: 0.4vw; 
+        }
+
+        .typo-headline {
+            font-family: 'Oswald', sans-serif; font-size: 11vw; line-height: 0.85;
+            color: #f4f4f0; text-transform: uppercase; font-weight: 700; margin: 0 0 30px 0;
+            letter-spacing: -2px; text-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: left;
+        }
+
+        .success-text { color: #39ff14; cursor: pointer; transition: all 0.3s ease; display: inline-block; }
+        .success-text:hover { text-shadow: 0 0 30px rgba(57, 255, 20, 0.6); transform: scale(1.02); transform-origin: left center; }
+
+        .typo-sub {
+            font-family: 'Roboto', sans-serif; font-size: 1.4rem; color: #a0a0a0;
+            max-width: 600px; line-height: 1.5; margin-bottom: 0; text-align: left;
+        }
+
+        /* --- БЛОК 6: ХЭЛЛОУИН (ФУЛЛ ЭКРАН) --- */
+        .halloween-section {
+            background-color: var(--black);
+            background-image: radial-gradient(ellipse at center, rgba(138, 43, 226, 0.1) 0%, transparent 80%);
+            min-height: 100vh; border-top: 1px solid #1a1a1a; display: flex;
+            align-items: center; justify-content: center; padding: 5vh 5%; overflow: hidden; position: relative;
+        }
+
+        .halloween-layout {
+            display: flex; justify-content: space-between; align-items: stretch;
+            width: 100%; max-width: 1800px; height: 90vh; gap: 50px;
+        }
+
+        .h-col { display: flex; flex-direction: column; justify-content: center; }
+
+        .h-col.side {
+            flex: 1; cursor: pointer; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6); transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s;
+        }
+        .h-col.side:hover { transform: scale(1.02); box-shadow: 0 20px 50px rgba(197, 134, 255, 0.3); }
+        .h-col.side img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .h-col.center { flex: 1.3; align-items: center; text-align: center; position: relative; }
+
+        .pumpkins-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .pumpkin {
+            position: absolute; font-size: 3rem; opacity: 0.8; filter: drop-shadow(0 5px 15px var(--halloween-orange));
+            animation: floatPumpkin 6s ease-in-out infinite;
+        }
+        .p1 { top: 10%; left: 10%; animation-delay: 0s; transform: rotate(-15deg); }
+        .p2 { top: 25%; right: 15%; animation-delay: 2s; transform: rotate(20deg) scale(0.8); }
+        .p3 { bottom: 30%; left: 20%; animation-delay: 4s; transform: rotate(10deg) scale(1.2); }
+
+        @keyframes floatPumpkin {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .h-text-group { z-index: 2; margin-bottom: 40px; }
+        .h-title {
+            font-family: 'Oswald', sans-serif; font-size: 5rem; line-height: 1.1; color: var(--white);
+            text-transform: uppercase; font-weight: 700; margin: 15px 0 25px 0; text-shadow: 0 5px 20px rgba(0,0,0,0.8);
+        }
+        .h-title span { color: var(--halloween-orange); }
+
+        .beer-group {
+            position: relative; width: 320px; height: 280px; margin: 0 auto; display: flex; justify-content: center; align-items: flex-end;
+            cursor: pointer; z-index: 5;
+        }
+        .b-can { position: absolute; bottom: 5%; width: 140px; height: auto; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        
+        .b-left { left: 0; z-index: 1; filter: drop-shadow(0 10px 15px rgba(57, 255, 20, 0.2)); animation: floatLeftBeer 5s ease-in-out infinite; }
+        .b-right { right: 0; z-index: 1; filter: drop-shadow(0 10px 15px rgba(57, 255, 20, 0.2)); animation: floatRightBeer 4.5s ease-in-out infinite 0.7s; }
+        .b-center { z-index: 2; filter: drop-shadow(0 20px 30px rgba(57, 255, 20, 0.5)); animation: floatCenterBeer 4s ease-in-out infinite 0.3s; }
+
+        @keyframes floatCenterBeer { 0%, 100% { transform: scale(1.15) translateY(10px) rotate(-2deg); } 50% { transform: scale(1.15) translateY(-15px) rotate(2deg); } }
+        @keyframes floatLeftBeer { 0%, 100% { transform: scale(0.9) translateY(0) rotate(-15deg); } 50% { transform: scale(0.9) translateY(-15px) rotate(-10deg); } }
+        @keyframes floatRightBeer { 0%, 100% { transform: scale(0.9) translateY(0) rotate(15deg); } 50% { transform: scale(0.9) translateY(-15px) rotate(10deg); } }
+
+        .beer-group:hover .b-left { transform: translateX(-45px) scale(0.9) rotate(-25deg); animation-play-state: paused; }
+        .beer-group:hover .b-right { transform: translateX(45px) scale(0.9) rotate(25deg); animation-play-state: paused; }
+        .beer-group:hover .b-center { transform: scale(1.3) translateY(0); filter: drop-shadow(0 25px 40px rgba(57, 255, 20, 0.7)); animation-play-state: paused; }
+
+        /* =========================================
+           БЛОК 7 (НОВЫЙ ГОД)
+        ========================================= */
+        .b7-section {
+            background-color: #0b0f19; width: 100%; min-height: 100vh;
+            display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 0; border-top: 1px solid #1a1a1a;
+        }
+        .b7-snow-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 25; }
+        .b7-tree-container { position: relative; width: 100%; max-width: 1920px; aspect-ratio: 16 / 9; margin: 0 auto; overflow: hidden; background-color: #0a0e17; }
+        .b7-tree-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        .b7-gradient-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 35%; background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, transparent 100%); pointer-events: none; z-index: 5; }
+        .b7-text-overlay { position: absolute; top: 4%; left: 50%; transform: translateX(-50%); text-align: center; z-index: 20; pointer-events: none; width: 90%; }
+        .b7-ref-date { font-family: 'Oswald', sans-serif; font-size: 1.2vw; color: var(--ice-blue); letter-spacing: 2px; display: block; font-weight: 700; text-shadow: 0 2px 15px rgba(139, 179, 244, 0.8), 0 2px 5px rgba(0,0,0,1); margin-bottom: 0;}
+        .b7-title { font-family: 'Oswald', sans-serif; font-size: 5vw; line-height: 1; color: #ffffff; text-transform: uppercase; font-weight: 700; margin: 10px 0; text-shadow: 0 0 30px rgba(255, 0, 0, 0.8), 0 5px 15px rgba(0,0,0,1); }
+        .b7-ref-desc { font-family: 'Roboto', sans-serif; font-size: 1.4vw; color: #e0e0e0; margin: 0; text-shadow: 0 2px 8px rgba(0,0,0,1); }
+        .b7-ref-sub-desc { font-family: 'Roboto', sans-serif; font-size: 0.9vw; color: #a0a0a0; margin-top: 8px; text-shadow: 0 2px 8px rgba(0,0,0,1); letter-spacing: 1px; }
+
+        .b7-bauble {
+            position: absolute; cursor: pointer; z-index: 10; transform-origin: top center; 
+            animation: b7BaubleSwing 3.5s ease-in-out infinite alternate, b7BaubleGlow 2s infinite alternate; transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        @keyframes b7BaubleSwing { 0% { transform: rotate(-6deg); } 100% { transform: rotate(6deg); } }
+        @keyframes b7BaubleGlow { 0% { filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4)); } 100% { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8)); } }
+        .b7-bauble:hover { transform: scale(1.15) rotate(0deg) !important; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 1)) !important; animation-play-state: paused; z-index: 15; }
+
+        .b7-b-top-left { top: 30%; left: 41.5%; width: 6.5%; animation-delay: 0s, 0.5s; }
+        .b7-b-top-right { top: 29%; left: 56.5%; width: 6.5%; animation-delay: 1.2s, 0.5s; }
+        .b7-b-mid-left { top: 46%; left: 36.5%; width: 6%; animation-delay: 0.5s, 1s; }
+        .b7-b-mid-right { top: 42%; left: 49.5%; width: 9.5%; animation-delay: 0.8s, 2s; }
+        .b7-b-bot-left { top: 64%; left: 33%; width: 9%; animation-delay: 0.3s, 0.8s; }
+        .b7-b-bot-right { top: 56%; left: 55%; width: 7%; animation-delay: 1.5s, 0s; }
+
+        .b7-character { position: absolute; bottom: 0; cursor: pointer; z-index: 15; background: transparent; }
+        .b7-character:hover { z-index: 20; }
+        .b7-char-1 { left: 0%; width: 11%; height: 50%; clip-path: polygon(10% 20%, 80% 25%, 90% 50%, 85% 100%, 0 100%, 0 20%); } 
+        .b7-char-2 { left: 10%; width: 16%; height: 55%; clip-path: polygon(25% 5%, 75% 10%, 90% 50%, 80% 100%, 10% 100%, 5% 40%); } 
+        .b7-char-3 { left: 75%; width: 14%; height: 55%; clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%); }
+
+        .b7-corner-audio-player {
+            position: absolute; bottom: 30px; left: 30px; z-index: 100; display: flex; align-items: center; gap: 15px;
+            background: rgba(20, 0, 0, 0.7); padding: 10px 20px; border: 2px solid #ffd700; border-radius: 30px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4), inset 0 0 10px rgba(255, 215, 0, 0.2); backdrop-filter: blur(5px); transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .b7-corner-audio-player:hover { box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), inset 0 0 15px rgba(255, 215, 0, 0.4); transform: translateY(-3px); }
+        .b7-audio-toggle-btn { background: transparent; border: none; color: #ffd700; cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; outline: none; transition: transform 0.2s; padding: 0; }
+        .b7-audio-toggle-btn:hover { transform: scale(1.15); }
+        .b7-audio-toggle-btn svg { width: 100%; height: 100%; drop-shadow: 0 0 5px rgba(255,215,0,0.5); }
+        
+        .b7-audio-volume-slider { -webkit-appearance: none; width: 100px; height: 6px; background: rgba(255, 255, 255, 0.3); border-radius: 3px; outline: none; cursor: pointer; transition: 0.2s; }
+        .b7-audio-volume-slider:hover { background: rgba(255, 255, 255, 0.5); }
+        .b7-audio-volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #ffd700; cursor: pointer; box-shadow: 0 0 10px rgba(255, 215, 0, 0.9); transition: 0.2s; }
+        .b7-audio-volume-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+        .b7-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(8, 8, 8, 0.95); backdrop-filter: blur(15px); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+        .b7-modal.active { opacity: 1; pointer-events: auto; }
+        .b7-modal-content { position: relative; width: auto; max-width: 95vw; display: flex; flex-direction: column; align-items: flex-end; transform: scale(0.95); transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .b7-modal.active .b7-modal-content { transform: scale(1); }
+        .b7-modal-close-btn { background: transparent; border: 1px solid #fff; color: #fff; padding: 10px 30px; font-family: 'Oswald', sans-serif; font-size: 16px; letter-spacing: 2px; cursor: pointer; margin-bottom: 20px; transition: 0.3s; text-transform: uppercase; outline: none; z-index: 200; position: relative; }
+        .b7-modal-close-btn:hover { background: #fff; color: #000; box-shadow: 0 0 20px rgba(255,255,255,0.5); }
+        .b7-modal-body { width: 100%; position: relative; overflow: visible; }
+        
+        .b7-modal-bg { background: #150505 !important; background-image: radial-gradient(circle at top right, rgba(212, 175, 55, 0.25) 0%, transparent 50%), radial-gradient(circle at bottom left, rgba(230, 46, 46, 0.3) 0%, transparent 60%), radial-gradient(circle at 50% 50%, rgba(20, 20, 40, 0.5) 0%, transparent 70%) !important; padding: 50px !important; border: 2px solid rgba(212, 175, 55, 0.5) !important; border-radius: 16px !important; box-shadow: 0 20px 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(230, 46, 46, 0.2) !important; }
+
+        .b7-page-newyear { position: absolute; top: 0; left: 0; width: 100%; height: 115px; z-index: 100; pointer-events: none; border-radius: 16px 16px 0 0; overflow: hidden; }
+        .b7-head-decor { position: absolute; top: 0; left: 0; display: block; height: 115px; width: 100%; background: url(balls/b-head-decor_newyear.png) repeat-x 0 0; pointer-events: auto; }
+        .b7-head-decor__inner { position: absolute; top: 0; left: 0; height: 115px; display: block; width: 373px; }
+        .b7-head-decor::before { content: ''; display: block; position: absolute; top: -115px; left: 0; z-index: 3; height: 115px; width: 100%; box-shadow: 0 15px 30px rgba(0,0,0,0.75); }
+        .b7-head-decor__inner_n2 { left: 373px; } .b7-head-decor__inner_n3 { left: 746px; } .b7-head-decor__inner_n4 { left: 1119px; } .b7-head-decor__inner_n5 { left: 1492px; } .b7-head-decor__inner_n6 { left: 1865px; } .b7-head-decor__inner_n7 { left: 2238px; }
+
+        .b7-ball { position: absolute; }
+        .b7-ball_n1 { top: 0; left: 3px; width: 59px; height: 83px; } .b7-ball_n2 { top: -19px; left: 51px; width: 55px; height: 70px; } .b7-ball_n3 { top: 9px; left: 88px; width: 49px; height: 67px; } .b7-ball_n4 { top: 0; left: 133px; width: 57px; height: 102px; } .b7-ball_n5 { top: 0; left: 166px; width: 49px; height: 57px; } .b7-ball_n6 { top: 6px; left: 200px; width: 54px; height: 70px; } .b7-ball_n7 { top: 0; left: 240px; width: 56px; height: 67px; } .b7-ball_n8 { top: 0; left: 283px; width: 54px; height: 53px; } .b7-ball_n9 { top: 10px; left: 321px; width: 49px; height: 66px; }
+        .b7-ball_n1 .b7-ball__i { background: url(balls/b-ball_n1.png) no-repeat; } .b7-ball_n2 .b7-ball__i { background: url(balls/b-ball_n2.png) no-repeat; } .b7-ball_n3 .b7-ball__i { background: url(balls/b-ball_n3.png) no-repeat; } .b7-ball_n4 .b7-ball__i { background: url(balls/b-ball_n4.png) no-repeat; } .b7-ball_n5 .b7-ball__i { background: url(balls/b-ball_n5.png) no-repeat; } .b7-ball_n6 .b7-ball__i { background: url(balls/b-ball_n6.png) no-repeat; } .b7-ball_n7 .b7-ball__i { background: url(balls/b-ball_n7.png) no-repeat; } .b7-ball_n8 .b7-ball__i { background: url(balls/b-ball_n8.png) no-repeat; } .b7-ball_n9 .b7-ball__i { background: url(balls/b-ball_n9.png) no-repeat; }
+        .b7-ball_i1 .b7-ball__i { background: url(balls/b-ball_i1.png) no-repeat; } .b7-ball_i2 .b7-ball__i { background: url(balls/b-ball_i2.png) no-repeat; } .b7-ball_i3 .b7-ball__i { background: url(balls/b-ball_i3.png) no-repeat; } .b7-ball_i4 .b7-ball__i { background: url(balls/b-ball_i4.png) no-repeat; } .b7-ball_i5 .b7-ball__i { background: url(balls/b-ball_i5.png) no-repeat; } .b7-ball_i6 .b7-ball__i { background: url(balls/b-ball_i6.png) no-repeat; }
+        .b7-ball_i1 { top: 0; left: 0; width: 25px; height: 71px; } .b7-ball_i2 { top: 0; left: 25px; width: 61px; height: 27px; } .b7-ball_i3 { top: 0; left: 176px; width: 29px; height: 31px; } .b7-ball_i4 { top: 0; left: 205px; width: 50px; height: 51px; } .b7-ball_i5 { top: 0; left: 289px; width: 78px; height: 28px; } .b7-ball_i6 { top: 0; left: 367px; width: 6px; height: 69px; }
+
+        .b7-ball__i { position: absolute; width: 100%; height: 100%; transform-origin: 50% 0; transition: all .3s ease-in-out; pointer-events: none; }
+        .b7-ball-bounce .b7-ball__right { position: absolute; top: 0; right: 0; left: 50%; bottom: 0; z-index: 9; }
+        .b7-ball-bounce:hover .b7-ball__right { display: none; } .b7-ball-bounce .b7-ball__right:hover { left: 0; display: block !important; }
+        .b7-ball-bounce.bounce > .b7-ball__i { transform: rotate(-9deg); } .b7-ball-bounce .b7-ball__right.bounce + .b7-ball__i { transform: rotate(9deg); }
+        .b7-ball-bounce.bounce1 > .b7-ball__i { transform: rotate(6deg); } .b7-ball-bounce .b7-ball__right.bounce1 + .b7-ball__i { transform: rotate(-6deg); }
+        .b7-ball-bounce.bounce2 > .b7-ball__i { transform: rotate(-3deg); } .b7-ball-bounce .b7-ball__right.bounce2 + .b7-ball__i { transform: rotate(3deg); }
+        .b7-ball-bounce.bounce3 > .b7-ball__i { transform: rotate(1.5deg); } .b7-ball-bounce .b7-ball__right.bounce3 + .b7-ball__i { transform: rotate(-1.5deg); }
+
+        .b7-festive-media { position: relative; border: 2px solid #ffd700; border-radius: 12px; padding: 5px; background: rgba(20, 0, 0, 0.6); box-shadow: 0 0 15px rgba(255, 0, 0, 0.4), inset 0 0 10px rgba(255, 215, 0, 0.2); }
+        .b7-image-view, .b7-gallery-row-view, .b7-mixed-view { display: none; width: 100%; align-items: center; justify-content: center; margin-top: 65px; }
+        .b7-image-view.active, .b7-gallery-row-view.active, .b7-mixed-view.active { display: flex; z-index: 10; position: relative;}
+        .b7-gallery-row-view { flex-direction: row; flex-wrap: wrap; gap: 30px; max-height: 85vh; overflow-y: auto; background: transparent; padding: 0; width: fit-content; margin: 65px auto 0; }
+        .b7-daniel-img, .b7-gallery-img { width: auto; max-width: 100%; max-height: 75vh; object-fit: contain; border-radius: 8px; display: block; margin: 0 auto; }
+        .b7-image-view { width: fit-content; margin: 65px auto 0; }
+        .b7-mixed-view { flex-direction: column; max-height: 85vh; overflow-y: auto; padding: 0; width: 100%; margin-top: 65px;}
+        .b7-circle-video-wrapper { position: relative; width: 220px; height: 220px; border-radius: 50%; border: 4px solid #ffd700; box-shadow: 0 0 25px rgba(255, 0, 0, 0.5), inset 0 0 15px rgba(255, 215, 0, 0.5); overflow: hidden; background: #000; cursor: pointer; flex-shrink: 0; }
+        .b7-tg-circle-video { width: 100%; height: 100%; object-fit: cover; }
+        .b7-large-circle { width: 350px !important; height: 350px !important; border-width: 6px !important; }
+        .b7-mixed-img { max-width: 100%; max-height: 60vh; border-radius: 8px; object-fit: contain; display: block; }
+        .b7-audio-group { display: flex; flex-direction: column; gap: 15px; width: 100%; min-width: 300px; max-width: 400px; margin: 0 auto; }
+        .b7-audio-group audio { width: 100%; height: 40px; outline: none; }
+        .b7-beer-layout-row { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; }
+        .b7-beer-layout-col { display: flex; flex-direction: column; gap: 20px; align-items: center; }
+        .b7-tight-group { display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; width: fit-content; margin: 0 auto; }
+
+        /* --- ЛОР ШИНРИ ПЕРЕД СУДОМ --- */
+        .shinri-lore-section {
+            background-color: #050505;
+            background-image: radial-gradient(circle at 0% 50%, rgba(218, 165, 32, 0.08) 0%, transparent 50%);
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 100px 5% 120px; border-top: 1px solid #1a1a1a; position: relative;
+        }
+
+        .st-gold-gradient { background: linear-gradient(90deg, #ffe066 0%, #da9a00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; }
+        .st-top-logo { width: 100%; max-width: 800px; margin-top: -20px; margin-bottom: 70px; filter: drop-shadow(0 15px 30px rgba(218, 165, 32, 0.2)); transition: transform 0.3s ease; }
+        .st-lore-layout { display: flex; width: 100%; max-width: 1500px; gap: 80px; align-items: center; }
+        .st-videos-col { flex: 1.2; display: flex; flex-direction: column; gap: 40px; }
+        
+        .st-video-card { position: relative; width: 100%; aspect-ratio: 16 / 7; background: #000; border-radius: 12px; overflow: hidden; cursor: pointer; border: 1px solid #222; box-shadow: 0 15px 40px rgba(0,0,0,0.6); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
+        .st-video-card video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.3s; pointer-events: none; }
+        .st-video-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(218, 165, 32, 0.15); border-color: rgba(218, 165, 32, 0.4); }
+        .st-video-card:hover video { opacity: 1; }
+        
+        .st-play-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 65px; height: 65px; background: rgba(0,0,0,0.7); border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 24px; color: #fff; padding-left: 5px; backdrop-filter: blur(5px); transition: 0.3s; z-index: 5; }
+        .st-video-card:hover .st-play-overlay { background: linear-gradient(135deg, #ffe066 0%, #da9a00 100%); border-color: #ffe066; transform: translate(-50%, -50%) scale(1.15); box-shadow: 0 0 20px rgba(218, 165, 32, 0.6); color: #000; }
+
+        .st-text-col { flex: 1; display: flex; flex-direction: column; }
+        .st-lore-date { font-family: 'Oswald', sans-serif; font-size: 1.3rem; letter-spacing: 3px; margin-bottom: 25px; text-transform: uppercase; font-weight: 700; }
+        .st-lore-title { font-family: 'Oswald', sans-serif; font-size: 5.5rem; line-height: 1.05; color: #ffffff; text-transform: uppercase; font-weight: 700; margin-bottom: 30px; text-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .st-lore-desc { font-family: 'Roboto', sans-serif; font-size: 1.6rem; color: #b0b0b0; line-height: 1.6; max-width: 600px; font-style: italic; border-left: 3px solid #da9a00; padding-left: 20px; }
+
+        .st-scroll-prompt { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); text-align: center; color: #e5b326; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 3px; opacity: 0.8; animation: scrollPromptPulse 2s infinite ease-in-out; z-index: 10; pointer-events: none; }
+        .st-scroll-prompt p { font-size: 1.3rem; margin-bottom: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 15px rgba(229, 179, 38, 0.4); }
+        .st-scroll-prompt .arrow { font-size: 1.8rem; }
+        @keyframes scrollPromptPulse { 0%, 100% { opacity: 0.5; transform: translate(-50%, 0); } 50% { opacity: 1; transform: translate(-50%, 10px); } }
+
+        /* --- БЛОК СУДА (SHINRI TRIAL) --- */
+        #shinri-trial-main { position: relative; width: 100vw; height: 100vh; overflow: hidden; background: #000; box-shadow: inset 0 20px 50px rgba(0,0,0,1); }
+
+        .st-volume-panel { position: absolute; top: 30px; right: 30px; z-index: 99999; display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.8); padding: 10px 20px; border-radius: 8px; border: 2px solid #e5b326; color: #e5b326; font-family: 'Oswald', sans-serif; font-size: 1.2rem; text-transform: uppercase; box-shadow: 0 5px 20px rgba(0,0,0,0.5); backdrop-filter: blur(5px); }
+        .st-volume-panel input[type=range] { accent-color: #e5b326; cursor: pointer; width: 100px; }
+
+        .st-intro-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; background: #000; display: flex; justify-content: center; align-items: center; transition: opacity 1.5s ease-in-out; }
+        .st-intro-layer video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        .st-start-btn { position: relative; z-index: 51; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); color: #e5b326; border: 2px solid #e5b326; border-radius: 8px; padding: 20px 50px; font-family: 'Oswald', sans-serif; font-size: 2.5rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 30px rgba(229, 179, 38, 0.4); }
+        .st-start-btn:hover { background: #e5b326; color: #000; transform: scale(1.05); box-shadow: 0 0 50px rgba(229, 179, 38, 0.8); }
+
+        .st-court-container { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 30; overflow: hidden; background: #000; }
+        .st-court-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('shinri trial/безперил.png'); background-size: 100% 100%; z-index: 31; }
+        .st-court-fg { position: absolute; top: 0; left: 0; width: 101%; height: 102%; background-image: url('shinri trial/перила.png'); background-size: 100% 100%; z-index: 33; pointer-events: none; }
+        .st-char-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 32; clip-path: inset(0 0 26% 0); }
+
+        .st-char { position: absolute; max-height: 48%; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.8)); transition: transform 0.3s ease, filter 0.3s ease, left 0.6s ease, right 0.6s ease, bottom 0.6s ease; cursor: pointer; pointer-events: auto; }
+        .st-char:hover { transform: translateY(-15px) scale(1.05); z-index: 40 !important; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.5)); }
+
+        .st-char.my-turn { filter: drop-shadow(0 0 25px #e5b326) drop-shadow(0 0 10px #e5b326) brightness(1.1); animation: turn-pulse 1.5s infinite alternate; }
+        .st-char.my-turn:hover { transform: translateY(-20px) scale(1.08); filter: drop-shadow(0 0 40px #ffffff) brightness(1.3); animation: none; }
+
+        .st-char.voting-active:hover { transform: translateY(-20px) scale(1.08); z-index: 45 !important; }
+        .st-char.c-rantaro.voting-active:hover { filter: drop-shadow(0 0 30px #9acd32) brightness(1.2); }
+        .st-char.c-maki.voting-active:hover { filter: drop-shadow(0 0 30px #ff4d4d) brightness(1.2); }
+        .st-char.c-shuichi.voting-active:hover { filter: drop-shadow(0 0 30px #87cefa) brightness(1.2); }
+        .st-char.c-kaede.voting-active:hover { filter: drop-shadow(0 0 30px #ff9bb5) brightness(1.2); }
+        .st-char.c-kaito.voting-active:hover { filter: drop-shadow(0 0 30px #da70d6) brightness(1.2); }
+        .st-char.c-ibuki.voting-active:hover { filter: drop-shadow(0 0 30px #a124e5) brightness(1.2); }
+
+        .c-ibuki { left: 70%; bottom: 24%; }
+        .c-rantaro { right: 46%; bottom: 25%; }
+        .c-kaede { left: 62%; bottom: 21%; }
+        .c-kaito { right: 64%; bottom: 23%; }
+        .c-maki { left: 35%; bottom: 22%; }
+        .c-shuichi { right: 38%; bottom: 23%; }
+
+        .c-maki.phase-3 { left: 37%; }
+        .c-kaede.phase-3 { left: 63.5%; bottom: 23% }
+        .c-kaito.phase-3 { right: 63%; bottom: 27%; }
+        .c-ibuki.phase-3 { bottom: 22%; }
+
+        .evidence-tab { position: fixed; left: -80px; top: 50%; transform: translateY(-50%); background: #e5b326; color: #000; font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 3px; padding: 25px 10px; writing-mode: vertical-rl; text-orientation: upright; text-transform: uppercase; cursor: pointer; z-index: 100; border-top-right-radius: 8px; border-bottom-right-radius: 8px; box-shadow: 5px 0 20px rgba(229, 179, 38, 0.3); opacity: 0; pointer-events: none; transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), padding 0.3s ease, opacity 0.3s ease; }
+        .evidence-tab.visible { left: 0; opacity: 1; pointer-events: auto; }
+        .evidence-tab.visible:hover { padding-right: 20px; }
+        
+        .ev-fullscreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; display: none; flex-direction: column; pointer-events: none; opacity: 0; transition: opacity 0.3s ease; }
+        .ev-fullscreen.active { display: flex; pointer-events: auto; opacity: 1; }
+        .ev-header-bar { background: #111; border-bottom: 2px solid #e5b326; display: inline-flex; align-items: center; padding: 15px 30px 15px 20px; width: fit-content; min-width: 450px; clip-path: polygon(0 0, 100% 0, 93% 100%, 0 100%); box-shadow: 0 5px 20px rgba(0,0,0,0.8); }
+        .ev-close-box { border: 2px solid #e5b326; color: #e5b326; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; cursor: pointer; transition: 0.2s; font-family: sans-serif; line-height: 1; }
+        .ev-close-box:hover { background: #e5b326; color: #000; }
+        .ev-title { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 2.2rem; color: #fff; margin-left: 20px; font-weight: 700; letter-spacing: 2px; }
+        .ev-title span { color: #e5b326; }
+        .ev-content-wrapper { display: flex; flex: 1; width: 100%; min-height: 0; }
+        .ev-left-panel { width: 35%; max-width: 450px; height: 100%; background-color: #050505; background-image: repeating-linear-gradient(-45deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02) 2px, transparent 2px, transparent 15px); padding: 40px 30px; display: flex; flex-direction: column; border-right: 1px solid #222; }
+        .ev-dropdown { border: 1px solid #333; padding: 15px 20px; color: #fff; font-family: 'Roboto', sans-serif; font-size: 1.1rem; margin-bottom: 20px; display: flex; justify-content: space-between; background: #111; border-radius: 3px; flex-shrink: 0; }
+        .ev-arrow-icon { color: #e5b326; text-align: center; margin-bottom: 10px; font-size: 1.2rem; flex-shrink: 0; }
+        
+        .ev-list { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; flex: 1; padding-right: 5px; margin-bottom: 10px;}
+        .ev-list::-webkit-scrollbar { width: 6px; }
+        .ev-list::-webkit-scrollbar-track { background: #111; border-radius: 4px; }
+        .ev-list::-webkit-scrollbar-thumb { background: #e5b326; border-radius: 4px; }
+        .ev-list::-webkit-scrollbar-thumb:hover { background: #ffcc00; }
+
+        .ev-item { background: #151515; color: #fff; padding: 15px 25px; font-family: 'Roboto', sans-serif; font-size: 1.2rem; font-weight: 500; clip-path: polygon(0 0, 95% 0, 100% 50%, 95% 100%, 0 100%); cursor: pointer; transition: background 0.2s, color 0.2s; display: flex; align-items: center; gap: 10px; flex-shrink: 0;}
+        .ev-item span { font-weight: 700; }
+        .ev-item:hover { background: #222; }
+        .ev-item.active { background: #e5b326; color: #000; font-weight: 700; }
+        .ev-right-panel { flex: 1; height: 100%; background: rgba(0, 0, 0, 0.65); padding: 50px 80px; display: flex; flex-direction: column; overflow-y: auto; }
+        .ev-details-box { display: none; animation: fadeIn 0.3s ease; }
+        .ev-details-box.active { display: block; }
+        
+        .ev-photo { width: 100%; max-width: 600px; height: 320px; background: repeating-linear-gradient(45deg, #7a1010, #7a1010 20px, #9e1414 20px, #9e1414 40px); border: 2px solid #222; margin-bottom: 30px; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 15px 30px rgba(0,0,0,0.5); border-radius: 8px; overflow: hidden; }
+        .ev-photo-text { font-family: 'Oswald', sans-serif; font-size: 4rem; color: rgba(255,255,255,0.3); font-weight: 700; letter-spacing: 5px; text-align: center; }
+        .ev-photo-stamp { position: absolute; bottom: 15px; right: 15px; background: #d32f2f; color: #fff; font-family: 'Oswald', sans-serif; font-size: 2rem; font-weight: 700; padding: 5px 20px; transform: rotate(-4deg); box-shadow: 2px 5px 15px rgba(0,0,0,0.5); text-transform: uppercase; z-index: 10;}
+        
+        .ev-right-title { color: #e5b326; font-family: 'Oswald', sans-serif; font-size: 2.8rem; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+        .ev-right-desc { color: #fff; font-family: 'Roboto', sans-serif; font-size: 1.15rem; line-height: 1.6; max-width: 700px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
+        .ev-hl { color: #e5b326; font-weight: 700; }
+        .ev-placeholder { color: #888; font-style: italic; font-size: 1.2rem; }
+
+        .text-evidence-link { color: #a124e5; text-decoration: underline; cursor: pointer; font-weight: 700; text-shadow: 0 0 10px rgba(161, 36, 229, 0.6); transition: 0.2s; }
+        .text-evidence-link:hover { color: #fff; text-shadow: 0 0 15px #fff; }
+
+        .new-ev-toast { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #e5b326; color: #000; padding: 10px 20px; font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 700; opacity: 0; pointer-events: none; z-index: 10; text-transform: uppercase; white-space: nowrap; width: max-content; box-shadow: 0 5px 15px rgba(0,0,0,0.8); border-radius: 5px; }
+        @keyframes toastPop { 0% { opacity: 0; transform: translate(-50%, -40%) scale(0.8); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); } 80% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -60%); } }
+        .new-ev-toast.show { animation: toastPop 2s ease forwards; }
+
+        .global-toast { position: fixed; bottom: 30px; right: 30px; background: #e5b326; color: #000; padding: 15px 30px; font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 700; text-transform: uppercase; border-radius: 5px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 99999; animation: slideInRight 0.5s ease forwards, fadeOut 0.5s ease 2.5s forwards; }
+        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+        /* ВН МОДАЛЬНЫЕ ОКНА ТРИАЛА */
+        .vn-modal-wrapper { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: flex-end; backdrop-filter: blur(5px); }
+        .vn-modal-wrapper.active { display: flex; animation: fadeIn 0.3s ease; }
+        .vn-sprite-container { position: absolute; bottom: 180px; left: 50%; transform: translateX(-50%); height: 75vh; max-height: 900px; z-index: 10001; pointer-events: none; }
+        .vn-sprite-container img { height: 100%; object-fit: contain; filter: drop-shadow(0 0 20px rgba(0,0,0,0.9)); transition: 0.2s ease; }
+        .vn-dialogue-box { position: relative; width: 85%; max-width: 1300px; height: 220px; background: #111; border: 4px solid #fff; border-radius: 10px; margin-bottom: 40px; z-index: 10002; padding: 45px 60px; box-shadow: 0 10px 40px rgba(0,0,0,0.9); cursor: pointer; transition: 0.3s; }
+        .vn-name { position: absolute; top: -30px; left: -4px; background: #fff; color: #000; font-family: 'Oswald', sans-serif; font-size: 2rem; font-weight: 700; padding: 5px 35px; border-radius: 5px; text-transform: uppercase; transition: 0.3s; }
+        .vn-text { font-family: 'Roboto', sans-serif; font-size: 1.8rem; color: #fff; line-height: 1.5; text-shadow: 2px 2px 4px #000; }
+        .vn-next-indicator { position: absolute; bottom: 20px; right: 30px; color: #fff; font-size: 2rem; animation: bounce 1s infinite; transition: 0.3s; }
+
+        .vn-modal-wrapper.vn-theme-rantaro .vn-dialogue-box { border-color: #9acd32; background: linear-gradient(180deg, rgba(20,25,15,0.95) 0%, rgba(5,10,5,0.95) 100%); } .vn-modal-wrapper.vn-theme-rantaro .vn-name { background: #9acd32; color: #000; } .vn-modal-wrapper.vn-theme-rantaro .vn-next-indicator { color: #9acd32; }
+        .vn-modal-wrapper.vn-theme-maki .vn-dialogue-box { border-color: #9e1414; background: linear-gradient(180deg, rgba(25,5,5,0.95) 0%, rgba(10,0,0,0.95) 100%); } .vn-modal-wrapper.vn-theme-maki .vn-name { background: #9e1414; color: #fff; } .vn-modal-wrapper.vn-theme-maki .vn-next-indicator { color: #9e1414; }
+        .vn-modal-wrapper.vn-theme-kaito .vn-dialogue-box { border-color: #da70d6; background: linear-gradient(180deg, rgba(25,10,35,0.95) 0%, rgba(10,0,15,0.95) 100%); } .vn-modal-wrapper.vn-theme-kaito .vn-name { background: #da70d6; color: #fff; } .vn-modal-wrapper.vn-theme-kaito .vn-next-indicator { color: #da70d6; }
+        .vn-modal-wrapper.vn-theme-kaede .vn-dialogue-box { border-color: #ff9bb5; background: linear-gradient(180deg, rgba(25,15,20,0.95) 0%, rgba(15,5,10,0.95) 100%); } .vn-modal-wrapper.vn-theme-kaede .vn-name { background: #ff9bb5; color: #000; } .vn-modal-wrapper.vn-theme-kaede .vn-next-indicator { color: #ff9bb5; }
+        .vn-modal-wrapper.vn-theme-ibuki .vn-dialogue-box { border-color: #a124e5; background: linear-gradient(180deg, rgba(20,5,25,0.95) 0%, rgba(10,0,15,0.95) 100%); } .vn-modal-wrapper.vn-theme-ibuki .vn-name { background: #a124e5; color: #fff; } .vn-modal-wrapper.vn-theme-ibuki .vn-next-indicator { color: #00f0ff; }
+        .vn-modal-wrapper.vn-theme-shuichi .vn-dialogue-box { border-color: #87cefa; background: linear-gradient(180deg, rgba(5,15,25,0.95) 0%, rgba(0,5,10,0.95) 100%); } .vn-modal-wrapper.vn-theme-shuichi .vn-name { background: #87cefa; color: #000; } .vn-modal-wrapper.vn-theme-shuichi .vn-next-indicator { color: #87cefa; }
+        .vn-modal-wrapper.vn-theme-monokuma .vn-dialogue-box { border-color: #d32f2f; background: linear-gradient(135deg, rgba(15,0,0,0.95) 0%, rgba(30,30,30,0.95) 100%); border-width: 6px; } .vn-modal-wrapper.vn-theme-monokuma .vn-name { background: #d32f2f; color: #fff; font-style: italic; } .vn-modal-wrapper.vn-theme-monokuma .vn-next-indicator { color: #d32f2f; }
+
+        .theme-rantaro { background: rgba(10, 20, 10, 0.95); } .theme-rantaro .video-split-view.with-text { border-color: #556b2f; } .theme-rantaro .video-split-view.with-text video { border-color: #9acd32; } .theme-rantaro .modal-close-btn { border-color: #9acd32; color: #9acd32; } 
+        .theme-ibuki { background: rgba(10, 0, 15, 0.95); } .theme-ibuki .video-split-view.with-text { border-color: #a124e5; } .theme-ibuki .video-split-view.with-text video { border-color: #00f0ff; } .theme-ibuki .modal-close-btn { border-color: #a124e5; color: #a124e5; } 
+        .theme-maki { background: rgba(20, 0, 0, 0.95); } .theme-maki .video-split-view.with-text { border-color: #9e1414; } .theme-maki .video-split-view.with-text video { border-color: #4a0000; } .theme-maki .modal-close-btn { border-color: #ff4d4d; color: #ff4d4d; } 
+        .theme-kaito { background: rgba(15, 0, 25, 0.95); } .theme-kaito .video-split-view.with-text { border-color: #8a2be2; } .theme-kaito .video-split-view.with-text video { border-color: #ff00ff; } .theme-kaito .modal-close-btn { border-color: #da70d6; color: #da70d6; } 
+        .theme-shuichi { background: rgba(0, 10, 20, 0.95); } .theme-shuichi .video-split-view.with-text { border-color: #1a365d; } .theme-shuichi .video-split-view.with-text video { border-color: #00ffff; } .theme-shuichi .modal-close-btn { border-color: #87cefa; color: #87cefa; } 
+        .theme-kaede { background: rgba(25, 15, 20, 0.95); } .theme-kaede .video-split-view.with-text { border-color: #ff9bb5; } .theme-kaede .modal-close-btn { border-color: #ff9bb5; color: #ff9bb5; } 
+
+        .char-dynamic-tag { font-family: 'Oswald', sans-serif; font-size: 1.1rem; letter-spacing: 3px; margin-bottom: 15px; text-transform: uppercase; transition: color 0.3s; }
+        .char-dynamic-title { font-family: 'Oswald', sans-serif; font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; text-transform: uppercase; transition: color 0.3s, text-shadow 0.3s; }
+        .char-dynamic-desc { font-family: 'Roboto', sans-serif; font-size: 1.15rem; line-height: 1.6; font-style: italic; border-left: 3px solid transparent; padding-left: 15px; transition: color 0.3s, border-color 0.3s; }
+
+        .theme-rantaro .char-dynamic-tag { color: #9acd32; } .theme-rantaro .char-dynamic-title { color: #fff; text-shadow: 0 4px 15px rgba(154, 205, 50, 0.6); } .theme-rantaro .char-dynamic-desc { border-color: #9acd32; color: #d0e6b3; }
+        .theme-ibuki .char-dynamic-tag { color: #a124e5; } .theme-ibuki .char-dynamic-title { color: #fff; text-shadow: 3px 3px 0px #a124e5, -3px -3px 0px #00f0ff, 0 0 15px rgba(255,255,255,0.4); } .theme-ibuki .char-dynamic-desc { border-color: #00f0ff; color: #e0e0e0; }
+        .theme-maki .char-dynamic-tag { color: #ff4d4d; } .theme-maki .char-dynamic-title { color: #fff; text-shadow: 0 4px 15px rgba(255, 77, 77, 0.6); } .theme-maki .char-dynamic-desc { border-color: #ff4d4d; color: #d6b4b4; }
+        .theme-kaito .char-dynamic-tag { color: #da70d6; } .theme-kaito .char-dynamic-title { color: #fff; text-shadow: 0 4px 15px rgba(218, 112, 214, 0.6); } .theme-kaito .char-dynamic-desc { border-color: #ff00ff; color: #e6cce6; }
+        .theme-shuichi .char-dynamic-tag { color: #87cefa; } .theme-shuichi .char-dynamic-title { color: #fff; text-shadow: 0 4px 15px rgba(135, 206, 250, 0.6); } .theme-shuichi .char-dynamic-desc { border-color: #00ffff; color: #b0c4de; }
+        .theme-kaede .char-dynamic-tag { color: #ff9bb5; } .theme-kaede .char-dynamic-title { color: #fff; text-shadow: 0 4px 15px rgba(255, 155, 181, 0.6); } .theme-kaede .char-dynamic-desc { border-color: #ff9bb5; color: #ffe4e1; }
+
+
+        /* ГОЛОСОВАНИЕ */
+        .voting-header { position: absolute; top: -150px; left: 50%; transform: translateX(-50%); text-align: center; z-index: 45; transition: 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s, visibility 0.5s; background: rgba(0,0,0,0.8); border: 2px solid #e5b326; border-top: none; padding: 15px 40px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; box-shadow: 0 10px 30px rgba(229, 179, 38, 0.3); pointer-events: none; opacity: 0; visibility: hidden; }
+        .voting-header.active { top: 0; opacity: 1; visibility: visible; }
+        .voting-header h1 { font-family: 'Oswald', sans-serif; color: #e5b326; font-size: 3rem; text-transform: uppercase; letter-spacing: 2px; line-height: 1; }
+        .voting-header p { font-family: 'Roboto', sans-serif; color: #aaa; font-size: 1rem; margin-bottom: 10px; }
+        .voting-timer { font-family: 'Oswald', sans-serif; color: #fff; font-size: 2.5rem; font-weight: 700; text-shadow: 0 0 10px #ff4d4d; }
+
+        .vote-confirm-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10005; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        .vote-confirm-modal.active { display: flex; animation: fadeIn 0.3s; }
+        .vote-confirm-content { display: flex; align-items: center; border: 4px solid; padding: 40px; border-radius: 15px; width: 75%; max-width: 1100px; height: 60vh; box-shadow: 0 20px 60px rgba(0,0,0,0.9); position: relative; background: linear-gradient(135deg, #222, #000); transition: all 0.4s ease; }
+        .vote-img-container { flex: 0 0 40%; height: 100%; position: relative; }
+        .vote-char-img { position: absolute; bottom: -10%; left: -20%; height: 135%; width: 160%; object-fit: contain; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.8)); pointer-events: none; }
+        .vote-ui { flex: 1; text-align: center; display: flex; flex-direction: column; justify-content: center; gap: 20px; z-index: 2;}
+        .vote-char-name { font-family: 'Oswald', sans-serif; font-size: 2.5rem; color: #fff; text-transform: uppercase; font-weight: 700; letter-spacing: 2px; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 15px; margin-bottom: 10px;}
+        .vote-ui h2 { font-family: 'Oswald', sans-serif; font-size: 3.5rem; color: #fff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        .vote-btns { display: flex; justify-content: center; gap: 20px; }
+        .vote-btn { font-family: 'Oswald', sans-serif; font-size: 2rem; font-weight: 700; padding: 10px 40px; cursor: pointer; text-transform: uppercase; transition: 0.2s; border-radius: 5px; border: 3px solid; background: rgba(0,0,0,0.5); min-width: 150px; outline: none; }
+
+        .vote-confirm-content.theme-rantaro { background: linear-gradient(135deg, #1b3310, #050a02); border-color: #9acd32; } .vote-confirm-content.theme-rantaro .vote-char-name { color: #9acd32; border-color: #9acd32; } .vote-confirm-content.theme-rantaro .btn-yes { border-color: #9acd32; color: #9acd32; } .vote-confirm-content.theme-rantaro .btn-yes:hover { background: #9acd32; color: #000; box-shadow: 0 0 20px rgba(154,205,50,0.6); }
+        .vote-confirm-content.theme-maki { background: linear-gradient(135deg, #330000, #0a0000); border-color: #ff4d4d; } .vote-confirm-content.theme-maki .vote-char-name { color: #ff4d4d; border-color: #ff4d4d; } .vote-confirm-content.theme-maki .btn-yes { border-color: #ff4d4d; color: #ff4d4d; } .vote-confirm-content.theme-maki .btn-yes:hover { background: #ff4d4d; color: #000; box-shadow: 0 0 20px rgba(255,77,77,0.6); }
+        .vote-confirm-content.theme-shuichi { background: linear-gradient(135deg, #001f3f, #00050a); border-color: #87cefa; } .vote-confirm-content.theme-shuichi .vote-char-name { color: #87cefa; border-color: #87cefa; } .vote-confirm-content.theme-shuichi .btn-yes { border-color: #87cefa; color: #87cefa; } .vote-confirm-content.theme-shuichi .btn-yes:hover { background: #87cefa; color: #000; box-shadow: 0 0 20px rgba(135,206,250,0.6); }
+        .vote-confirm-content.theme-kaede { background: linear-gradient(135deg, #33141d, #0f0508); border-color: #ff9bb5; } .vote-confirm-content.theme-kaede .vote-char-name { color: #ff9bb5; border-color: #ff9bb5; } .vote-confirm-content.theme-kaede .btn-yes { border-color: #ff9bb5; color: #ff9bb5; } .vote-confirm-content.theme-kaede .btn-yes:hover { background: #ff9bb5; color: #000; box-shadow: 0 0 20px rgba(255,155,181,0.6); }
+        .vote-confirm-content.theme-kaito { background: linear-gradient(135deg, #2b0033, #0a0011); border-color: #da70d6; } .vote-confirm-content.theme-kaito .vote-char-name { color: #da70d6; border-color: #da70d6; } .vote-confirm-content.theme-kaito .btn-yes { border-color: #da70d6; color: #da70d6; } .vote-confirm-content.theme-kaito .btn-yes:hover { background: #da70d6; color: #000; box-shadow: 0 0 20px rgba(218,112,214,0.6); }
+        .vote-confirm-content.theme-ibuki { background: linear-gradient(135deg, #200033, #05000a); border-color: #a124e5; } .vote-confirm-content.theme-ibuki .vote-char-name { color: #a124e5; border-color: #a124e5; } .vote-confirm-content.theme-ibuki .btn-yes { border-color: #a124e5; color: #a124e5; } .vote-confirm-content.theme-ibuki .btn-yes:hover { background: #a124e5; color: #000; box-shadow: 0 0 20px rgba(161,36,229,0.6); }
+        .btn-no { border-color: #fff; color: #fff; } .btn-no:hover { background: #fff; color: #000; box-shadow: 0 0 20px rgba(255,255,255,0.6); }
+
+        .wrong-vote-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.95); z-index: 20000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        .wrong-vote-content { position: relative; max-width: 90vw; max-height: 90vh; display: flex; align-items: center; justify-content: center; }
+        .wrong-vote-media { max-width: 100%; max-height: 80vh; border: 4px solid #fff; border-radius: 8px; box-shadow: 0 0 40px rgba(255,255,255,0.2); outline: none;}
+        .wrong-vote-close { position: absolute; top: -50px; right: -50px; background: none; border: 2px solid #fff; color: #fff; font-size: 30px; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .wrong-vote-close:hover { background: #fff; color: #000; transform: scale(1.1); box-shadow: 0 0 15px #fff; }
+
+        .execution-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 25000; display: none; justify-content: center; align-items: center; }
+        .execution-video { width: 100%; height: 100%; object-fit: cover; outline: none; }
+
+        .final-videos-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.95); z-index: 30000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        .final-videos-content { position: relative; width: 80vw; display: flex; gap: 30px; justify-content: center; }
+        .final-video-item { width: 45%; border: 3px solid #e5b326; border-radius: 8px; box-shadow: 0 0 30px rgba(229,179,38,0.3); outline: none; }
+        .final-videos-close { position: absolute; top: -60px; right: 0; background: none; border: 2px solid #e5b326; color: #e5b326; font-size: 30px; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .final-videos-close:hover { background: #e5b326; color: #000; transform: scale(1.1); box-shadow: 0 0 15px #e5b326; }
+
+        .ending-curtain-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 35000; display: none; justify-content: center; align-items: center; }
+        .ending-curtain-video { width: 100%; height: 100%; object-fit: cover; }
+    </style>
+</head>
+<body>
+
+    <!-- БЛОК 8.1: ПРЕДЫСТОРИЯ -->
+    <section class="shinri-lore-section reveal">
+        <img src="shinri trial/название.png" alt="Shinri Trial Logo" class="st-top-logo">
+        <div class="st-lore-layout">
+            <div class="st-videos-col">
+                <div class="st-video-card premium-modal-trigger" 
+                     data-type="video" 
+                     data-src="shinri trial/мнениеолюдяхвромпе.mp4" 
+                     data-text="<span style='background: linear-gradient(90deg, #ffe066, #da9a00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: Oswald; font-size: 1.2rem; letter-spacing: 2px; display: block; margin-bottom: 15px;'>15 ФЕВРАЛЯ 2025</span><h3 style='font-family: Oswald; font-size: 3.5rem; color: #fff; line-height: 1.1; margin-bottom: 20px; text-transform: uppercase;'>МНЕНИЕ О ЛЮДЯХ<br>ПЛАТЯЩИХ ЗА ИГРЫ</h3><p style='font-family: Roboto; font-size: 1.4rem; color: #a0a0a0; line-height: 1.5;'>До сих пор такого же мнения.</p>">
+                    <video src="shinri trial/мнениеолюдяхвромпе.mp4" preload="metadata"></video>
+                    <div class="st-play-overlay">▶</div>
+                </div>
+                <div class="st-video-card premium-modal-trigger" 
+                     data-type="video" 
+                     data-src="shinri trial/начало.mp4" 
+                     data-text="<span style='background: linear-gradient(90deg, #ffe066, #da9a00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: Oswald; font-size: 1.2rem; letter-spacing: 2px; display: block; margin-bottom: 15px;'>15 ФЕВРАЛЯ 2025</span><h3 style='font-family: Oswald; font-size: 3.5rem; color: #fff; line-height: 1.1; margin-bottom: 20px; text-transform: uppercase;'>ПЕРВАЯ ИГРА<br>В SHINRI</h3><p style='font-family: Roboto; font-size: 1.4rem; color: #a0a0a0; line-height: 1.5;'>Ну конечно меня просто захуярили как дворнягу какую-то около сада, зато потом сама сдохла заслуженно.</p>">
+                    <video src="shinri trial/начало.mp4" preload="metadata"></video>
+                    <div class="st-play-overlay">▶</div>
+                </div>
+            </div>
+            <div class="st-text-col">
+                <span class="st-lore-date st-gold-gradient">15 февраля 2025 года</span>
+                <h2 class="st-lore-title">Знакомство с<br><span class="st-gold-gradient">Shinri Trial</span></h2>
+                <p class="st-lore-desc">«Игра, созданная для воплощения своих желаний, если в жизни ты бездарность.»</p>
+            </div>
+        </div>
+
+        <div class="st-scroll-prompt">
+            <p>Ниже будет интерактивная игра классного суда</p>
+            <div class="arrow">▼</div>
+        </div>
+    </section>
+
+    <!-- БЛОК 8.2: КЛАССНЫЙ СУД -->
+    <section class="trial-section" id="shinri-trial-main">
+        
+        <div class="voting-header" id="voting-header">
+            <h1>Кто убийца?</h1>
+            <p>(Нажмите на персонажа, чтобы выбрать)</p>
+            <div class="voting-timer" id="voting-timer">03:00</div>
+        </div>
+
+        <div class="st-volume-panel">
+            🔊 <input type="range" id="st-global-volume" min="0" max="1" step="0.05" value="0.5">
+        </div>
+
+        <div class="st-intro-layer" id="intro-layer">
+            <video id="curtain-video" src="shinri trial/шторы.mp4" preload="auto"></video>
+            <button class="st-start-btn" id="btn-start-video">НАЧАТЬ СУД</button>
+        </div>
+
+        <div class="st-court-container" id="court-layer">
+            <div class="st-court-bg"></div>
+            
+            <div class="st-char-layer">
+                
+                <!-- РАНТАРО (КРУГ 1: 0 | КРУГ 2: 0) -->
+                <img src="shinri trial/рантаро.png" class="st-char c-rantaro char-modal-trigger" 
+                     data-order="0" data-r2-order="0" data-id="rantaro" data-full-img="shinri trial/рантароголосование.png" data-name="Рантаро Амами"
+                     
+                     data-r1-theme="theme-rantaro" data-r1-type="video" data-r1-src="shinri trial/рантаро.mp4"
+                     data-r1-pose="shinri trial/рантаро2.png"
+                     data-alibi-title="Алиби: Рантаро Амами"
+                     data-alibi-desc="Я вообще на 4 этаж не поднимался и на время резни я был на 1 в медпункте."
+                     data-r1-text="<span class='char-dynamic-tag'>Свидетельские показания</span><h3 class='char-dynamic-title'>Давайте не терять самообладание и<br>пройдемся по алиби</h3><p class='char-dynamic-desc'>Я вообще на 4 этаж не поднимался и на время резни я был на 1 в медпункте. А вы что скажете?</p>"
+                     
+                     data-r2-type="vn" data-r2-end-pose="shinri trial/рантаро4.png" data-r2-pose="shinri trial/рантаро3.png"
+                     data-r2-vn-name="Рантаро Амами" data-r2-vn-theme="vn-theme-rantaro"
+                     data-r2-vn-sprites="shinri trial/3рантаровблизи.png|shinri trial/рантаро4вблизи.png"
+                     data-r2-vn-texts="Так ну получается что у нас нет алиби у Маки Харукавы, она же устраивала какой то поджог?|Тем более я прочел в одних документах на 4 этаже, что ее талант абсолютный киллер или как то так....">
+
+                <!-- МАКИ (КРУГ 1: 1 | КРУГ 2: 1) -->
+                <img src="shinri trial/маки.png" class="st-char c-maki char-modal-trigger" 
+                     data-order="1" data-r2-order="1" data-id="maki" data-full-img="shinri trial/макиголосование.png" data-name="Маки Харукава" data-vertical="true"
+                     
+                     data-r1-theme="theme-maki" data-r1-type="video" data-r1-src="shinri trial/маки.mp4" 
+                     data-r1-pose="shinri trial/маки2.png"
+                     data-alibi-title="Алиби: Маки Харукава"
+                     data-alibi-desc="Как вы вообще можете подозревать меня, думаете я бы стала убивать так безрассудно? Не путайте мастера и дилетанта."
+                     data-r1-text="<span class='char-dynamic-tag'>Свидетельские показания</span><h3 class='char-dynamic-title'>Я занималась<br>поджогом</h3><p class='char-dynamic-desc'>Как вы вообще можете подозревать меня, думаете я бы стала убивать так безрассудно? Не путайте мастера и дилетанта.</p>"
+                     
+                     data-r2-type="vn" data-r2-end-pose="shinri trial/макифулл-removebg-preview.png" data-r2-pose="shinri trial/маки3.png"
+                     data-r2-vn-name="Маки Харукава" data-r2-vn-theme="vn-theme-maki"
+                     data-r2-vn-sprites="shinri trial/макивблизи.png|shinri trial/макивблизи2.png"
+                     data-r2-vn-texts="Рантаро Амами, ты полный идиот, если думаешь, что это я! Я не убиваю людей по своей прихоти.|Да и тем более, я не оставила бы Кайто одного в этой академии, он тот еще дурак, которому нужна защита.">
+
+                <!-- КАЙТО (КРУГ 1: 2 | КРУГ 2: 2) -->
+                <img src="shinri trial/кайто.png" class="st-char c-kaito char-modal-trigger" 
+                     data-order="2" data-r2-order="2" data-id="kaito" data-full-img="shinri trial/кайтоголосование.png" data-name="Кайто Момота"
+                     
+                     data-r1-theme="theme-kaito" data-r1-type="video" data-r1-src="shinri trial/кайто.mp4"
+                     data-r1-pose="shinri trial/кайто2.png"
+                     data-alibi-title="Алиби: Кайто Момота"
+                     data-alibi-desc="Вначале мы просто общались, а потом я включил на монопаде тречек и пошло дело, мы так протанцевали часов 8."
+                     data-r1-text="<span class='char-dynamic-tag'>Свидетельские показания</span><h3 class='char-dynamic-title'>Ну у меня тоже есть алиби<br>я после танцев с маки все время был</h3><p class='char-dynamic-desc'>Вначале мы просто общались, а потом я включил на монопаде тречек и пошло дело, мы так протанцевали часов 8. И у Ибуки точно алиби.<br><br>Да и я не верю что Маки могла убить, она же такая хорошая вы чего.</p>"
+                     
+                     data-r2-type="vn" data-r2-end-pose="shinri trial/кайтовфулл-removebg-preview.png" data-r2-pose="shinri trial/кайто3.png"
+                     data-r2-vn-name="Кайто Момота" data-r2-vn-theme="vn-theme-kaito"
+                     data-r2-vn-sprites="shinri trial/кайтовблизи.png|shinri trial/кайтовблизи2.png"
+                     data-r2-vn-texts="Да, алиби Маки очень сомнительное и странное, но...|Я УВЕРЕН ЧТО ОНА БЫ НЕ СТАЛА УБИВАТЬ ТАКОЕ КОЛИЧЕСТВО ЛЮДЕЙ ПРОСТО ТАК! ОСТАВЬТЕ ЕЕ!">
+                     
+                <!-- ИБУКИ (КРУГ 1: 3 | КРУГ 2: 4) -->
+                <img src="shinri trial/ибуки.png" class="st-char c-ibuki char-modal-trigger" 
+                     data-order="3" data-r2-order="4" data-id="ibuki" data-full-img="shinri trial/ибукиголосование.png" data-name="Ибуки Миода"
+                     
+                     data-r1-theme="theme-ibuki" data-r1-type="video" data-r1-src="shinri trial/ибуки.mp4"
+                     data-r1-pose="shinri trial/ибуки2.png"
+                     data-alibi-title="Алиби: Ибуки Миода"
+                     data-alibi-desc="Ибуки пошла в медпункт спирт пить, что бы больно не было."
+                     data-r1-text="<span class='char-dynamic-tag'>Свидетельские показания</span><h3 class='char-dynamic-title'>А ИБУКИ ЗНАЕТ<br>УБИЙЦУУУУУУ</h3><p class='char-dynamic-desc'>Меня злой Рантаро <span class='text-evidence-link' onclick='discoverBat(event)'>битой</span> по коленям бил, поэтому Ибуки пошла в медпункт спирт пить, что бы больно не было. Ибуки не могла убить, Ибуки хорошая.</p>"
+                     
+                     data-r2-type="vn" data-r2-end-pose="shinri trial/ибукифулл-removebg-preview.png" data-r2-pose="shinri trial/ибуки3.png"
+                     data-r2-vn-name="Ибуки Миода" data-r2-vn-theme="vn-theme-ibuki"
+                     data-r2-vn-sprites="shinri trial/ибукивблизи.png|shinri trial/ибуки2вблизи_2.png"
+                     data-r2-vn-texts="РАНТАРО! ИБУКИ ДУМАЕТ, что это ты убил их, ты и так чуть не убил ИБУКИ битой!|Но у Маки есть доступ к заброшенному этажу.... Ибуки видела как она поднималась, пока Ибуки шла за гитарой.">
+                     
+                <!-- ШУИЧИ (КРУГ 1: 4 | КРУГ 2: 5) -->
+                <img src="shinri trial/шуичи.png" class="st-char c-shuichi char-modal-trigger" 
+                     data-order="4" data-r2-order="5" data-id="shuichi" data-full-img="shinri trial/шуичиголосование.png" data-name="Шуичи Сайхара"
+                     
+                     data-r1-theme="theme-shuichi" data-r1-type="video" data-r1-src="shinri trial/шуичи.mp4"
+                     data-r1-pose="shinri trial/шуичи2.png"
+                     data-alibi-title="Алиби: Шуичи Сайхара"
+                     data-alibi-desc="Мы с Каэде были в зале и танцевали, там Саяка выступала..."
+                     data-r1-text="<span class='char-dynamic-tag'>Свидетельские показания</span><h3 class='char-dynamic-title'>Ну как вам<br>сказать....</h3><p class='char-dynamic-desc'>Мы с Каэде были в зале и танцевали, там Саяка выступала..... Как то так....</p>"
+                     
+                     data-r2-type="vn" data-r2-end-pose="shinri trial/шуичифулл-removebg-preview.png" data-r2-pose="shinri trial/шуичи3.png"
+                     data-r2-vn-name="Шуичи Сайхара" data-r2-vn-theme="vn-theme-shuichi"
+                     data-r2-vn-sprites="shinri trial/шуичивблизи.png|shinri trial/шуичивблизи2.png|shinri trial/шуичивблизи3.png"
+                     data-r2-vn-texts="Что ж... Из подозреваемых у нас только Маки Харукава и Рантаро Амами. Ваши алиби самые шаткие из всех кто здесь присутствуют.|Меня кое что смутило в словах Рантаро, когда он говорил свое алиби в самом начале суда....|Я думаю, что убийца....">
+
+                <!-- КАЭДЕ (КРУГ 1: 5 | КРУГ 2: 3) -->
+                <img src="shinri trial/каэде.png" class="st-char c-kaede char-modal-trigger" 
+                     data-order="5" data-r2-order="3" data-id="kaede" data-full-img="shinri trial/каэдеголосование.png" data-name="Каэде Акамацу"
+                     
+                     data-r1-theme="theme-kaede" data-r1-type="interactive" 
+                     data-r1-img1="shinri trial/images-.png" data-r1-img2="shinri trial/катана-.png"
+                     data-r1-pose="shinri trial/каэде2.png"
+                     data-alibi-title="Алиби: Каэде Акамацу"
+                     data-alibi-desc="Да, я подтверждаю слова Шуичи, мы были в зале."
+                     data-r1-text="<span class='char-dynamic-tag'>Свидетельские показания</span><h3 class='char-dynamic-title'>Да я подтверждаю слова Шуичи<br>и вот еще....</h3><p class='char-dynamic-desc'>Я так же нашла топор и катану которые были все в крови на 4 этаже в одном из тел....<br><br>*(Кликните на улики слева, чтобы занести их в архив)*</p>"
+                     
+                     data-r2-type="vn" data-r2-end-pose="shinri trial/каэдефулл-removebg-preview.png" data-r2-pose="shinri trial/каэде3.png"
+                     data-r2-vn-name="Каэде Акамацу" data-r2-vn-theme="vn-theme-kaede"
+                     data-r2-vn-sprites="shinri trial/каэдевблизи.png|shinri trial/каэдевблизи2.png"
+                     data-r2-vn-texts="Рантаро, ты может и прав, но у тебя же тоже нет алиби, разве нет?|Время, когда ты был в медпункте, намного раньше чем убийства. Так что вы оба подозреваемые.">
+                
+            </div>
+
+            <div class="st-court-fg"></div>
+            <img src="shinri trial/лого.png" class="st-logo-overlay">
+        </div>
+
+        <!-- УЛИКИ: КНОПКА И ПАНЕЛЬ -->
+        <div class="evidence-tab" id="evidence-open-btn">УЛИКИ</div>
+
+        <div class="ev-fullscreen" id="evidence-overlay">
+            <div class="ev-header-bar">
+                <div class="ev-close-box" id="evidence-close-btn">✕</div>
+                <div class="ev-title"><span>УЛИКИ</span> / АРХИВ</div>
+            </div>
+            <div class="ev-content-wrapper">
+                <div class="ev-left-panel">
+                    <div class="ev-dropdown">Все улики <span>▼</span></div>
+                    <div class="ev-arrow-icon">▲</div>
+                    <div class="ev-list" id="evidence-list-container">
+                        <div class="ev-item" onclick="showEvidence(3, this)"><span>1.</span> Труп Даниэля</div>
+                        <div class="ev-item" onclick="showEvidence(4, this)"><span>2.</span> Труп Некиты</div>
+                        <div class="ev-item" onclick="showEvidence(5, this)"><span>3.</span> Труп Ромы</div>
+                        <div class="ev-item" onclick="showEvidence(6, this)"><span>4.</span> Труп Черныша</div>
+                        <div class="ev-item" onclick="showEvidence(7, this)"><span>5.</span> Труп Эдика</div>
+                        <div class="ev-item" onclick="showEvidence(8, this)"><span>6.</span> Труп Вики</div>
+                        <div class="ev-item" onclick="showEvidence(9, this)"><span>7.</span> Труп Насти</div>
+                    </div>
+                    <div class="ev-arrow-icon" style="margin-top: 10px;">▼</div>
+                </div>
+                <div class="ev-right-panel">
+                    <div class="ev-placeholder" id="ev-placeholder">Выберите улику из списка слева, чтобы просмотреть подробности.</div>
+                    <div class="ev-details-box" id="ev-details-box"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ОКНО МЕДИА (КРУГ 1) -->
+        <div class="char-modal-wrapper" id="char-modal-wrapper">
+            <div class="char-modal-content">
+                <button class="char-close-btn" id="char-close-btn">Закрыть</button>
+                <div class="char-split-view" id="char-split-view">
+                    <div class="char-media-block">
+                        <div class="char-video-wrapper" id="char-video-wrapper">
+                            <video class="char-video-player" id="char-modal-video" src="" preload="metadata" controls></video>
+                            <div class="video-play-overlay" id="video-play-overlay">▶</div>
+                        </div>
+                        <div class="char-image-grid" id="char-modal-images">
+                            <div class="char-evidence-img-wrap" id="kaede-axe" onclick="discoverAxe(this)">
+                                <img src="" id="char-img-1">
+                                <div class="new-ev-toast">Новая улика!</div>
+                            </div>
+                            <div class="char-evidence-img-wrap" id="kaede-katana" onclick="discoverKatana(this)">
+                                <img src="" id="char-img-2">
+                                <div class="new-ev-toast">Новая улика!</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="char-text-block" id="char-modal-text"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ОКНО ВИЗУАЛЬНОЙ НОВЕЛЛЫ (КРУГ 2 + ФИНАЛ) -->
+        <div class="vn-modal-wrapper" id="vn-modal-wrapper">
+            <div class="vn-sprite-container">
+                <img id="vn-sprite" src="" alt="">
+            </div>
+            <div class="vn-dialogue-box">
+                <div class="vn-name" id="vn-name">Имя</div>
+                <div class="vn-text" id="vn-text"></div>
+                <div class="vn-next-indicator">▼</div>
+            </div>
+        </div>
+
+        <!-- ОКНО ПОДТВЕРЖДЕНИЯ ВЫБОРА (ГОЛОСОВАНИЕ) -->
+        <div class="vote-confirm-modal" id="vote-confirm-modal">
+            <div class="vote-confirm-content" id="vote-confirm-content">
+                <div class="vote-img-container">
+                    <img id="vote-confirm-img" class="vote-char-img" src="" alt="">
+                </div>
+                <div class="vote-ui">
+                    <div class="vote-char-name" id="vote-confirm-name">ИМЯ ПЕРСОНАЖА</div>
+                    <h2>Вы уверены?</h2>
+                    <div class="vote-btns">
+                        <button class="vote-btn btn-yes" id="vote-btn-yes">Да</button>
+                        <button class="vote-btn btn-no" id="vote-btn-no">Нет</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ОКНО НЕВЕРНОГО ВЫБОРА (ДРУГОЙ ПЕРСОНАЖ) -->
+        <div class="wrong-vote-modal" id="wrong-vote-modal">
+            <div class="wrong-vote-content">
+                <button class="wrong-vote-close" id="wrong-vote-close">✖</button>
+                <div id="wrong-vote-media-container"></div>
+            </div>
+        </div>
+
+        <!-- ФИНАЛЬНАЯ КАЗНЬ (РАНТАРО) -->
+        <div class="execution-container" id="execution-container">
+            <video class="execution-video" id="execution-video" src="shinri trial/рантароказнь.mp4" controls></video>
+        </div>
+
+        <!-- ОКНО С ДВУМЯ ВИДЕО (ПОСЛЕ МОНОКУМЫ) -->
+        <div class="final-videos-modal" id="final-videos-modal">
+            <div class="final-videos-content">
+                <button class="final-videos-close" id="final-videos-close">✖</button>
+                <video class="final-video-item" src="shinri trial/резня1.mp4" controls></video>
+                <video class="final-video-item" src="shinri trial/резня2.mp4" controls></video>
+            </div>
+        </div>
+
+        <!-- ЗАНАВЕС (КОНЕЦ ИГРЫ) -->
+        <div class="ending-curtain-container" id="ending-curtain-container">
+            <video class="ending-curtain-video" id="ending-curtain-video" src="shinri trial/занавес_закрытие.mp4" preload="auto"></video>
+        </div>
+
+    </section>
+
+    <!-- БЛОК 8.3: MEMORIES -->
+    <section class="history-grid-section time-skip-section reveal">
+        <div class="time-skip-header col-center">
+            <h3 class="time-skip-title"><span style="color: var(--purple);">Memo</span><span style="color: var(--red);">ries</span></h3>
+        </div>
+
+        <div class="time-skip-gallery">
+            <div class="grid-photo-container premium-modal-trigger" data-type="image" data-src="фото.jpg" data-text="Мне скинули гайд как сделать самоотсос 11 ноября">
+                <img src="фото.jpg" class="grid-photo" alt="Гайд">
+                <div class="tg-spoiler-overlay"><img src="теллеграм.png" class="tg-airplane-img" alt="Telegram"></div>
+            </div>
+            <div class="grid-photo-container premium-modal-trigger" data-type="video" data-src="школьник.mp4" data-text="Видео моих школьных времен 5 класса не знаю зачем я его вставил">
+                <img src="школьник-prev.jpg" class="grid-photo" alt="Школьник превью">
+                <div class="tg-spoiler-overlay"><img src="теллеграм.png" class="tg-airplane-img" alt="Telegram"></div>
+            </div>
+            <div class="grid-photo-container premium-modal-trigger" data-type="video" data-src="эдит.mp4" data-text="Мой первый эдит по валоранту который я сразу же как сделал скинул тебе и ты его засрала с ног до головы ну впринципе справедливо он реально говно">
+                <img src="эдит-prev.jpg" class="grid-photo" alt="Эдит превью">
+                <div class="tg-spoiler-overlay"><img src="теллеграм.png" class="tg-airplane-img" alt="Telegram"></div>
+            </div>
+            <div class="grid-photo-container premium-modal-trigger" data-type="image" data-src="диалог.jpg" data-text="Бля я вот даже щас перечитываю в ахуе от того насколько вы немощи. Кать меняйся дальше в лучшую сторону как сейчас">
+                <img src="диалог.jpg" class="grid-photo" alt="Диалог">
+                <div class="tg-spoiler-overlay"><img src="теллеграм.png" class="tg-airplane-img" alt="Telegram"></div>
+            </div>
+            <div class="grid-photo-container premium-modal-trigger" data-type="gallery" data-src="а1.jpg,а2.jpg">
+                <img src="а1.jpg" class="grid-photo" alt="Скриншот а1">
+                <div class="gallery-icon">1 / 2</div>
+                <div class="tg-spoiler-overlay"><img src="теллеграм.png" class="tg-airplane-img" alt="Telegram"></div>
+            </div>
+            <div class="grid-photo-container premium-modal-trigger" data-type="image" data-src="а3.jpg">
+                <img src="а3.jpg" class="grid-photo" alt="Скриншот а3">
+                <div class="tg-spoiler-overlay"><img src="теллеграм.png" class="tg-airplane-img" alt="Telegram"></div>
+            </div>
+            <div class="grid-photo-container premium-modal-trigger" data-type="image" data-src="подарок.jpg" data-text="Эту фигурку ты заказала юле на день рождение 24 ноября">
+                <img src="подарок.jpg" class="grid-photo" alt="Подарок">
+                <div class="tg-spoiler-overlay"><img src="теллеграм.png" class="tg-airplane-img" alt="Telegram"></div>
+            </div>
+            <div class="grid-photo-container premium-modal-trigger" data-type="gallery" data-src="спор.jpg,спор2.jpg">
+                <img src="спор.jpg" class="grid-photo" alt="Спор">
+                <div class="gallery-icon">1 / 2</div>
+                <div class="tg-spoiler-overlay"><img src="теллеграм.png" class="tg-airplane-img" alt="Telegram"></div>
+            </div>
+            <div class="grid-photo-container premium-modal-trigger" data-type="image" data-src="фиона.jpg" data-text="11 ноября мы начали смотреть наверное один из твоих любимых мультов и в этот же день я его успешно дропнул....">
+                <img src="фиона.jpg" class="grid-photo" alt="Фиона">
+                <div class="tg-spoiler-overlay"><img src="теллеграм.png" class="tg-airplane-img" alt="Telegram"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- УМНЫЙ КИНОТЕАТР (ГЛОБАЛЬНОЕ МОДАЛЬНОЕ ОКНО) -->
+    <div class="premium-modal" id="premium-peak-modal">
+        <div class="premium-modal-content">
+            <button class="modal-close-btn" id="premium-close-btn">Закрыть</button>
+            <div class="modal-body">
+                
+                <div class="video-split-view" id="peak-modal-video-view">
+                    <video class="premium-video-player" id="peak-modal-video" src="" controls preload="metadata"></video>
+                    <div class="daniel-text" id="peak-modal-video-text"></div>
+                </div>
+                
+                <div class="image-view" id="peak-modal-image-view">
+                    <div class="daniel-img-wrap" id="modal-img-wrap">
+                        <img id="peak-modal-img" src="" alt="Фото" class="daniel-img">
+                    </div>
+                    <div class="daniel-text" id="peak-modal-text"></div>
+                </div>
+
+                <div class="gallery-view" id="peak-modal-gallery-view"></div>
+
+                <div class="beer-view" id="peak-modal-beer-view">
+                    <div class="beer-grid">
+                        <div class="circle-videos">
+                            <div class="circle-video-wrapper">
+                                <video class="tg-circle-video" src="пьяная.mp4" loop playsinline preload="metadata"></video>
+                                <div class="circle-play-btn"></div>
+                            </div>
+                            <div class="circle-video-wrapper">
+                                <video class="tg-circle-video" src="пьяная2.mp4" loop playsinline preload="metadata"></video>
+                                <div class="circle-play-btn"></div>
+                            </div>
+                        </div>
+                        <div class="audio-group">
+                            <audio src="пьяная3.ogg" controls></audio>
+                            <audio src="пьяная4.ogg" controls></audio>
+                            <audio src="пьяная5.ogg" controls></audio>
+                        </div>
+                        <img class="drunk-chat-img" src="пьяная6.jpg" alt="Пьяная переписка">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================
+         ЕДИНЫЙ JS СКРИПТ (СШИТЫЙ)
+    ========================================= -->
+    <script>
+        // --- 1. ЛОГИКА ГЕРОЯ И СКРОЛЛА ---
+        const track = document.getElementById('scroll-track');
+        const heroOverlay = document.getElementById('hero-overlay');
+        const sideLeft = document.getElementById('slide-left');
+        const sideRight = document.getElementById('slide-right');
+        const heroMainText = document.getElementById('hero-main-text');
+
+        window.addEventListener('scroll', () => {
+            const rect = track.getBoundingClientRect();
+            let p = -rect.top / (rect.height - window.innerHeight);
+            p = Math.max(0, Math.min(1, p)); 
+
+            if (p < 0.15) {
+                let phase = p / 0.15; 
+                heroMainText.style.opacity = 1 - (phase * 0.5); 
+                heroMainText.style.transform = `translate(-50%, -50%) scale(${1 - (0.05 * phase)})`;
+                sideLeft.style.transform = `translateX(-100%)`;
+                sideRight.style.transform = `translateX(100%)`;
+                heroOverlay.style.opacity = 0;
+            } 
+            else if (p >= 0.15 && p < 0.70) {
+                let phase = (p - 0.15) / 0.55;
+                let ease = phase < 0.5 ? 2 * phase * phase : 1 - Math.pow(-2 * phase + 2, 2) / 2;
+                heroMainText.style.opacity = 0.5 - (0.5 * ease);
+                sideLeft.style.transform = `translateX(${-100 * (1 - ease)}%)`;
+                sideRight.style.transform = `translateX(${100 * (1 - ease)}%)`;
+                heroOverlay.style.opacity = 0;
+            } 
+            else if (p >= 0.70 && p < 0.90) {
+                let phase = (p - 0.70) / 0.20;
+                heroMainText.style.opacity = 0;
+                sideLeft.style.transform = `translateX(0%)`;
+                sideRight.style.transform = `translateX(0%)`;
+                heroOverlay.style.opacity = phase;
+            }
+            else {
+                heroMainText.style.opacity = 0;
+                sideLeft.style.transform = `translateX(0%)`;
+                sideRight.style.transform = `translateX(0%)`;
+                heroOverlay.style.opacity = 1;
+            }
+        });
+
+        // --- 2. ОБЩИЙ OBSERVER ДЛЯ АНИМАЦИЙ ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.reveal').forEach((el) => { observer.observe(el); });
+
+        // --- 3. ИНТЕРАКТИВНЫЙ СЛАЙДЕР ФОТО ---
+        const sliderInput = document.getElementById('slider-input');
+        const layerTop = document.getElementById('layer-top');
+        const sliderHandle = document.getElementById('slider-handle');
+        if (sliderInput && layerTop && sliderHandle) {
+            sliderInput.addEventListener('input', (e) => {
+                const val = e.target.value; 
+                layerTop.style.clipPath = `inset(0 ${100 - val}% 0 0)`;
+                sliderHandle.style.left = `${val}%`;
+            });
+        }
+
+        // --- 4. R.E.P.O. СЛЕЖЕНИЕ ГЛАЗ ЗА КУРСОРОМ ---
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            document.querySelectorAll('.repo-eye').forEach(eye => {
+                const rect = eye.getBoundingClientRect();
+                const eyeX = rect.left + rect.width / 2;
+                const eyeY = rect.top + rect.height / 2;
+                const deltaX = mouseX - eyeX;
+                const deltaY = mouseY - eyeY;
+                const angle = Math.atan2(deltaY, deltaX);
+                const distance = Math.min(3, Math.hypot(deltaX, deltaY) / 10); 
+                const pupilX = Math.cos(angle) * distance;
+                const pupilY = Math.sin(angle) * distance;
+                const pupil = eye.querySelector('.repo-pupil');
+                if(pupil) pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
+            });
+        });
+
+        // --- 5. ГЛОБАЛЬНЫЙ МУЗЫКАЛЬНЫЙ ДВИЖОК СУДА И АВТО-ПАУЗА ---
+        const bgm1 = new Audio('shinri trial/начало.mp3');
+        const bgm2 = new Audio('shinri trial/продолжение.mp3');
+        const bgm3 = new Audio('shinri trial/конец.mp3');
+        const bgmVoting = new Audio('shinri trial/темал.mp3');
+        
+        let currentActiveBGM = null;
+        let isTrialStarted = false; // Флаг, чтобы музыка не заиграла до начала суда
+
+        bgm1.onended = () => { currentActiveBGM = bgm2; manageBGM(); };
+        bgm2.onended = () => { currentActiveBGM = bgm3; manageBGM(); };
+        bgm3.loop = true;
+        bgmVoting.loop = true;
+
+        const allBgms = [bgm1, bgm2, bgm3, bgmVoting];
+
+        const volSlider = document.getElementById('st-global-volume');
+        if (volSlider) {
+            volSlider.addEventListener('input', (e) => {
+                let v = e.target.value;
+                allBgms.forEach(a => a.volume = v);
+                document.querySelectorAll('#shinri-trial-main video').forEach(vid => vid.volume = v);
+            });
+        }
+
+        // Умное управление музыкой 
+        function manageBGM() {
+            if (!isTrialStarted) return; // Не трогаем музыку, если суд еще не начался
+            if (!currentActiveBGM) {
+                allBgms.forEach(a => a.pause());
+                return;
+            }
+            
+            // Проверяем, играет ли видео ЛЮБОЕ на сайте (или в модалке)
+            let isAnyVideoPlaying = Array.from(document.querySelectorAll('#shinri-trial-main video')).some(v => {
+                if (v.id === 'curtain-video') return false; 
+                return !v.paused && !v.ended && v.readyState > 0;
+            });
+            
+            let peakVid = document.getElementById('peak-modal-video');
+            if (peakVid && !peakVid.paused && !peakVid.ended && peakVid.readyState > 0) {
+                isAnyVideoPlaying = true;
+            }
+            
+            if (isAnyVideoPlaying) {
+                allBgms.forEach(a => a.pause());
+            } else {
+                allBgms.forEach(a => { if (a !== currentActiveBGM) a.pause(); });
+                currentActiveBGM.volume = volSlider.value;
+                currentActiveBGM.play().catch(e => console.log(e));
+            }
+        }
+
+        // Следим за видео в суде
+        const trialMain = document.querySelector('#shinri-trial-main');
+        if (trialMain) {
+            trialMain.addEventListener('play', function(e) { if(e.target.tagName.toLowerCase() === 'video') manageBGM(); }, true);
+            trialMain.addEventListener('pause', function(e) { if(e.target.tagName.toLowerCase() === 'video') setTimeout(manageBGM, 50); }, true);
+            trialMain.addEventListener('ended', function(e) { if(e.target.tagName.toLowerCase() === 'video') setTimeout(manageBGM, 50); }, true);
+        }
+
+        // --- 6. ГЛОБАЛЬНЫЙ КИНОТЕАТР (МОДАЛЬНОЕ ОКНО) ---
+        const modalTriggers = document.querySelectorAll('.premium-modal-trigger');
+        const premiumModal = document.getElementById('premium-peak-modal');
+        const globalModalCloseBtn = document.getElementById('premium-close-btn');
+        
+        const peakModalVideoView = document.getElementById('peak-modal-video-view');
+        const peakModalVideo = document.getElementById('peak-modal-video');
+        const peakModalVideoText = document.getElementById('peak-modal-video-text');
+        
+        const peakModalImageView = document.getElementById('peak-modal-image-view');
+        const peakModalImg = document.getElementById('peak-modal-img');
+        const peakModalText = document.getElementById('peak-modal-text');
+        const modalImgWrap = document.getElementById('modal-img-wrap');
+        
+        const peakModalGalleryView = document.getElementById('peak-modal-gallery-view');
+        const peakModalBeerView = document.getElementById('peak-modal-beer-view');
+
+        // Следим за видео в модалке для управления BGM суда
+        if (peakModalVideo) {
+            peakModalVideo.addEventListener('play', () => { if(typeof manageBGM === 'function') manageBGM(); });
+            peakModalVideo.addEventListener('pause', () => { if(typeof manageBGM === 'function') setTimeout(manageBGM, 50); });
+        }
+
+        modalTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const type = trigger.getAttribute('data-type');
+                const src = trigger.getAttribute('data-src');
+                const text = trigger.getAttribute('data-text'); 
+                const rotateVal = trigger.getAttribute('data-rotate'); 
+                const isBlock8 = trigger.closest('.time-skip-section') !== null;
+
+                const airplane = trigger.querySelector('.tg-airplane-img');
+                if (airplane) {
+                    airplane.classList.add('fly');
+                    setTimeout(() => { airplane.classList.remove('fly'); }, 1000);
+                }
+
+                if(peakModalVideoView) peakModalVideoView.classList.remove('active');
+                if(peakModalImageView) peakModalImageView.classList.remove('active');
+                if(peakModalGalleryView) peakModalGalleryView.classList.remove('active');
+                if(peakModalBeerView) peakModalBeerView.classList.remove('active');
+                
+                [peakModalVideoView, peakModalImageView, peakModalGalleryView].forEach(el => {
+                    if(el) {
+                        if (isBlock8) el.classList.add('tg-modal-bg');
+                        else el.classList.remove('tg-modal-bg');
+                    }
+                });
+                
+                if(peakModalVideo) peakModalVideo.pause(); 
+                if (peakModalBeerView) {
+                    peakModalBeerView.querySelectorAll('video, audio').forEach(media => {
+                        media.pause();
+                        const btn = media.parentElement.querySelector('.circle-play-btn');
+                        if(btn) btn.style.opacity = '1';
+                    });
+                }
+
+                if (type === 'video') {
+                    peakModalVideoView.classList.add('active');
+                    peakModalVideo.src = src;
+                    
+                    if (rotateVal) {
+                        peakModalVideo.style.transform = `rotate(${rotateVal}deg) scale(0.85)`;
+                        peakModalVideo.removeAttribute('controls'); 
+                        peakModalVideo.style.cursor = 'pointer'; 
+                    } else {
+                        peakModalVideo.style.transform = 'none';
+                        peakModalVideo.setAttribute('controls', 'controls'); 
+                        peakModalVideo.style.cursor = 'default';
+                    }
+
+                    peakModalVideo.play();
+
+                    if(text) {
+                        peakModalVideoText.innerHTML = text;
+                        peakModalVideoView.classList.add('with-text');
+                        let glowColor = '#f39c12'; 
+                        if (trigger.style.getPropertyValue('--glow-color')) glowColor = trigger.style.getPropertyValue('--glow-color');
+                        peakModalVideoText.style.setProperty('--glow-color', glowColor);
+                    } else {
+                        peakModalVideoText.innerHTML = '';
+                        peakModalVideoView.classList.remove('with-text');
+                    }
+                } 
+                else if (type === 'image') {
+                    peakModalImageView.classList.add('active');
+                    peakModalImg.src = src;
+                    
+                    if(text) {
+                        peakModalText.innerHTML = text;
+                        peakModalText.style.display = 'block';
+                        peakModalImageView.classList.add('with-text');
+                        modalImgWrap.classList.remove('full');
+                        modalImgWrap.classList.add('split');
+                    } else {
+                        peakModalText.style.display = 'none';
+                        peakModalImageView.classList.remove('with-text');
+                        modalImgWrap.classList.remove('split');
+                        modalImgWrap.classList.add('full');
+                    }
+
+                    let glowColor = '#f39c12'; 
+                    if (trigger.style.getPropertyValue('--head-color')) glowColor = trigger.style.getPropertyValue('--head-color');
+                    else if (trigger.classList.contains('player-yellow')) glowColor = '#f39c12'; 
+                    
+                    modalImgWrap.style.setProperty('--glow-color', glowColor);
+                    peakModalText.style.setProperty('--glow-color', glowColor);
+                }
+                else if (type === 'gallery') {
+                    peakModalGalleryView.innerHTML = '';
+                    const images = src.split(','); 
+                    images.forEach(imgSrc => {
+                        const img = document.createElement('img');
+                        img.src = imgSrc.trim();
+                        img.className = 'gallery-img';
+                        peakModalGalleryView.appendChild(img);
+                    });
+                    peakModalGalleryView.classList.add('active');
+                }
+                else if (type === 'beer-content') {
+                    peakModalBeerView.classList.add('active');
+                }
+                
+                setTimeout(() => { premiumModal.classList.add('active'); }, 350);
+            });
+        });
+
+        if(peakModalVideo) {
+            peakModalVideo.addEventListener('click', () => {
+                if (!peakModalVideo.hasAttribute('controls')) {
+                    if (peakModalVideo.paused) peakModalVideo.play();
+                    else peakModalVideo.pause();
+                }
+            });
+        }
+
+        const circleWrappers = document.querySelectorAll('.circle-video-wrapper');
+        circleWrappers.forEach(wrapper => {
+            const vid = wrapper.querySelector('.tg-circle-video');
+            const btn = wrapper.querySelector('.circle-play-btn');
+            wrapper.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                if (vid.paused) { vid.play(); btn.style.opacity = '0'; } 
+                else { vid.pause(); btn.style.opacity = '1'; }
+            });
+        });
+
+        function closeGlobalModal() {
+            if(premiumModal) premiumModal.classList.remove('active');
+            if(peakModalVideo) peakModalVideo.pause();
+            if (peakModalBeerView) {
+                peakModalBeerView.querySelectorAll('video, audio').forEach(media => {
+                    media.pause();
+                    const btn = media.parentElement.querySelector('.circle-play-btn');
+                    if(btn) btn.style.opacity = '1';
+                });
+            }
+        }
+
+        if (globalModalCloseBtn) globalModalCloseBtn.addEventListener('click', closeGlobalModal);
+        if (premiumModal) {
+            premiumModal.addEventListener('click', (e) => {
+                if (e.target === premiumModal || e.target === document.querySelector('.modal-body')) closeGlobalModal();
+            });
+        }
+
+        // --- 7. БЛОК 7: НОВЫЙ ГОД (СНЕГ И ЕЛКА) ---
+        (function() {
+            const b7ModalTriggers = document.querySelectorAll('.b7-modal-trigger');
+            const b7Modal = document.getElementById('b7-premium-peak-modal');
+            const b7ModalCloseBtn = document.getElementById('b7-modal-close-btn');
+            const b7ImageView = document.getElementById('b7-peak-modal-image-view');
+            const b7ModalImg = document.getElementById('b7-peak-modal-img');
+            const b7GalleryRowView = document.getElementById('b7-peak-modal-gallery-row-view');
+            const b7MixedView = document.getElementById('b7-peak-modal-mixed-view');
+
+            b7ModalTriggers.forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    const type = trigger.getAttribute('data-type');
+                    const src = trigger.getAttribute('data-src');
+                    const target = trigger.getAttribute('data-target');
+
+                    b7ImageView.classList.remove('active');
+                    b7GalleryRowView.classList.remove('active');
+                    b7MixedView.classList.remove('active');
+                    b7MixedView.querySelectorAll('video, audio').forEach(m => m.pause());
+
+                    b7ModalImg.src = '';
+                    b7GalleryRowView.innerHTML = '';
+                    b7MixedView.innerHTML = '';
+
+                    if (type === 'image') {
+                        b7ImageView.classList.add('active');
+                        b7ModalImg.src = src;
+                    } else if (type === 'gallery-row') {
+                        b7GalleryRowView.classList.add('active');
+                        const images = src.split(',');
+                        images.forEach(imgSrc => {
+                            const img = document.createElement('img');
+                            img.src = imgSrc.trim();
+                            img.className = 'b7-gallery-img b7-festive-media';
+                            b7GalleryRowView.appendChild(img);
+                        });
+                    } else if (type === 'mixed') {
+                        b7MixedView.classList.add('active');
+                        const templateContent = document.getElementById(target).innerHTML;
+                        b7MixedView.innerHTML = templateContent;
+                        
+                        b7MixedView.querySelectorAll('.b7-circle-video-wrapper').forEach(wrapper => {
+                            const vid = wrapper.querySelector('.b7-tg-circle-video');
+                            wrapper.addEventListener('click', (e) => {
+                                e.stopPropagation();
+                                if (vid.paused) vid.play();
+                                else vid.pause();
+                            });
+                        });
+                    }
+                    b7Modal.classList.add('active');
+                });
+            });
+
+            function closeB7Modal() {
+                b7Modal.classList.remove('active');
+                document.querySelectorAll('.b7-modal-body video, .b7-modal-body audio').forEach(m => m.pause());
+                setTimeout(() => {
+                    b7ImageView.classList.remove('active');
+                    b7GalleryRowView.classList.remove('active');
+                    b7MixedView.classList.remove('active');
+                    b7ModalImg.src = '';
+                    b7GalleryRowView.innerHTML = '';
+                    b7MixedView.innerHTML = '';
+                }, 300);
+            }
+
+            if (b7ModalCloseBtn) b7ModalCloseBtn.addEventListener('click', closeB7Modal);
+            if (b7Modal) {
+                b7Modal.addEventListener('click', (e) => {
+                    if (e.target === b7Modal || e.target.classList.contains('b7-modal-body')) {
+                        closeB7Modal();
+                    }
+                });
+            }
+
+            // Canvas Snow
+            const canvas = document.getElementById('b7-snow-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                let cWidth = canvas.width = window.innerWidth;
+                let cHeight = canvas.height = window.innerHeight;
+                let snowflakes = [];
+                const SNOWFLAKES_COUNT = 750;
+
+                window.addEventListener('resize', () => {
+                    cWidth = canvas.width = window.innerWidth;
+                    cHeight = canvas.height = window.innerHeight;
+                });
+
+                class Snowflake {
+                    constructor() {
+                        this.x = Math.random() * cWidth;
+                        this.y = Math.random() * cHeight;
+                        this.radius = Math.random() * 2.5 + 0.5;
+                        this.speed = Math.random() * 3 + 1; 
+                        this.wind = Math.random() * 1.5 - 0.75; 
+                        this.opacity = Math.random() * 0.5 + 0.3; 
+                    }
+                    update() {
+                        this.y += this.speed;
+                        this.x += this.wind;
+                        if (this.y > cHeight) {
+                            this.y = -this.radius;
+                            this.x = Math.random() * cWidth;
+                        }
+                        if (this.x > cWidth + this.radius) {
+                            this.x = -this.radius;
+                        } else if (this.x < -this.radius) {
+                            this.x = cWidth + this.radius;
+                        }
+                    }
+                    draw() {
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                        ctx.fill();
+                    }
+                }
+                for (let i = 0; i < SNOWFLAKES_COUNT; i++) snowflakes.push(new Snowflake());
+
+                function animateSnow() {
+                    ctx.clearRect(0, 0, cWidth, cHeight); 
+                    snowflakes.forEach(flake => { flake.update(); flake.draw(); });
+                    requestAnimationFrame(animateSnow); 
+                }
+                animateSnow();
+            }
+
+            // Audio logic for tree balls
+            const mainAudio = document.getElementById('b7-main-bg-audio');
+            const mainAudioBtn = document.getElementById('b7-main-audio-btn');
+            const mainIconOn = document.getElementById('b7-icon-audio-on');
+            const mainIconOff = document.getElementById('b7-icon-audio-off');
+            const b7VolumeSlider = document.getElementById('b7-main-audio-volume');
+
+            if (mainAudio && b7VolumeSlider) mainAudio.volume = b7VolumeSlider.value;
+
+            if (mainAudioBtn) {
+                mainAudioBtn.addEventListener('click', () => {
+                    if (mainAudio.paused) {
+                        mainAudio.play();
+                        mainIconOff.style.display = 'none';
+                        mainIconOn.style.display = 'block';
+                    } else {
+                        mainAudio.pause();
+                        mainIconOn.style.display = 'none';
+                        mainIconOff.style.display = 'block';
+                    }
+                });
+            }
+
+            if (b7VolumeSlider) {
+                b7VolumeSlider.addEventListener('input', (e) => {
+                    mainAudio.volume = e.target.value;
+                    if (e.target.value == 0) {
+                        mainIconOn.style.display = 'none';
+                        mainIconOff.style.display = 'block';
+                    } else if (!mainAudio.paused) {
+                        mainIconOff.style.display = 'none';
+                        mainIconOn.style.display = 'block';
+                    }
+                });
+            }
+
+            class Balls {
+                constructor(context, buffer) { this.context = context; this.buffer = buffer; }
+                setup() {
+                    this.gainNode = this.context.createGain();
+                    this.source = this.context.createBufferSource();
+                    this.source.buffer = this.buffer;
+                    this.source.connect(this.gainNode);
+                    this.gainNode.connect(this.context.destination);
+                    this.gainNode.gain.setValueAtTime(1, this.context.currentTime);
+                }
+                play() { this.setup(); this.source.start(this.context.currentTime); }
+                stop() {
+                    var ct = this.context.currentTime + 1;
+                    this.gainNode.gain.exponentialRampToValueAtTime(.1, ct);
+                    this.source.stop(ct);
+                }
+            }
+
+            class Buffer {
+                constructor(context, urls) { this.context = context; this.urls = urls; this.buffer = []; }
+                loadSound(url, index) {
+                    let request = new XMLHttpRequest();
+                    request.open('get', url, true);
+                    request.responseType = 'arraybuffer';
+                    let thisBuffer = this;
+                    request.onload = function() {
+                        thisBuffer.context.decodeAudioData(request.response, function(buffer) {
+                            thisBuffer.buffer[index] = buffer;
+                            if(index == thisBuffer.urls.length-1) thisBuffer.loaded();
+                        });
+                    };
+                    request.send();
+                };
+                getBuffer() { this.urls.forEach((url, index) => { this.loadSound(url, index); }) }
+                loaded() {}
+                getSound(index) { return this.buffer[index]; }
+            }
+
+            let balls = null, preset = 0;
+            let path = 'audio/';
+            let sounds = [];
+            for(let s = 1; s <= 36; s++) sounds.push(path + 'sound' + s + '.mp3');
+
+            let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+            function playBalls() {
+                let index = parseInt(this.dataset.note) + preset;
+                balls = new Balls(audioContext, buffer.getSound(index));
+                try { balls.play(); } catch(e) {} 
+            }
+            function stopBalls() {
+                if(balls) { try { balls.stop(); } catch(e) {} }
+            }
+
+            let buffer = new Buffer(audioContext, sounds);
+            buffer.getBuffer();
+            
+            let buttons = document.querySelectorAll('.b7-ball-bounce');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', playBalls.bind(button));
+                button.addEventListener('mouseleave', stopBalls);
+            })
+
+            function toggleBounce(i){
+                i.classList.add("bounce");
+                function n() {
+                    i.classList.remove("bounce"); i.classList.add("bounce1");
+                    function o() {
+                        i.classList.remove("bounce1"); i.classList.add("bounce2");
+                        function p() {
+                            i.classList.remove("bounce2"); i.classList.add("bounce3");
+                            setTimeout(() => i.classList.remove("bounce3"), 300);
+                        }
+                        setTimeout(p, 300);
+                    }
+                    setTimeout(o, 300);
+                }
+                setTimeout(n, 300);
+            }
+
+            var array1 = document.querySelectorAll('.b7-ball-bounce');
+            var array2 = document.querySelectorAll('.b7-ball-bounce .b7-ball__right');
+
+            for(let i=0; i<array1.length; i++) array1[i].addEventListener('mouseenter', function(){ if (this.className.indexOf(" bounce") === -1) toggleBounce(this); });
+            for(let i=0; i<array2.length; i++) array2[i].addEventListener('mouseenter', function(){ if (this.parentElement.className.indexOf(" bounce") === -1) toggleBounce(this.parentElement); });
+
+            let l = ["49", "50", "51", "52", "53", "54", "55", "56", "57", "48", "189", "187", "81", "87", "69", "82", "84", "89", "85", "73", "79", "80", "219", "221", "65", "83", "68", "70", "71", "72", "74", "75", "76", "186", "222", "220"];
+            let k = ["90", "88", "67", "86", "66", "78", "77", "188", "190", "191"];
+            let a = {};
+            for (let e = 0, c = l.length; e < c; e++) { a[l[e]] = e; }
+            for (let e = 0, c = k.length; e < c; e++) { a[k[e]] = e; }
+
+            document.addEventListener('keydown', function (j) {
+                if (j.which in a) {
+                    let index = parseInt(a[j.which]);
+                    balls = new Balls(audioContext, buffer.getSound(index));
+                    try { balls.play(); } catch(e) {}
+                    let ball = document.querySelector('.b7-ball-bounce[data-note="' + index + '"]');
+                    if(ball) toggleBounce(ball);
+                }
+            });
+        })();
+
+        // --- 8. ЛОГИКА КЛАССНОГО СУДА ---
+        
+        let trialCurrentRound = 1; 
+        let trialCurrentSequenceStep = 0; 
+        let isTrialVotingTime = false;
+        let trialActiveCharElement = null; 
+        let trialCurrentVoteTarget = null; 
+
+        const trialBtnStart = document.getElementById('btn-start-video');
+        const trialIntroLayer = document.getElementById('intro-layer');
+        const trialCurtainVideo = document.getElementById('curtain-video');
+        const trialEvOpenBtn = document.getElementById('evidence-open-btn');
+
+        if(trialBtnStart) {
+            trialBtnStart.addEventListener('click', () => { 
+                trialBtnStart.style.display = 'none'; 
+                
+                isTrialStarted = true;
+                
+                let v = volSlider.value;
+                allBgms.forEach(a => a.volume = v);
+                trialCurtainVideo.volume = v;
+                
+                trialCurtainVideo.play().catch(e=>console.log(e)); 
+                
+                currentActiveBGM = bgm1;
+                bgm1.play().catch(e=>console.log(e)); 
+            });
+            
+            trialCurtainVideo.addEventListener('error', () => {
+                trialIntroLayer.style.display = 'none';
+                startVNSession(monokumaIntroData.texts, monokumaIntroData.sprites, monokumaIntroData.name, monokumaIntroData.theme, () => {
+                    trialEvOpenBtn.classList.add('visible'); 
+                    updateTurnIndicator(); 
+                });
+            });
+
+            trialCurtainVideo.addEventListener('ended', () => {
+                trialIntroLayer.style.opacity = '0'; 
+                setTimeout(() => { 
+                    trialIntroLayer.style.display = 'none'; 
+                    startVNSession(monokumaIntroData.texts, monokumaIntroData.sprites, monokumaIntroData.name, monokumaIntroData.theme, () => {
+                        trialEvOpenBtn.classList.add('visible'); 
+                        updateTurnIndicator(); 
+                    });
+                }, 1500);
+            });
+        }
+
+        const trialCharTriggers = document.querySelectorAll('.char-modal-trigger');
+        const trialCharModalWrapper = document.getElementById('char-modal-wrapper');
+        const trialCharCloseBtn = document.getElementById('char-close-btn');
+        const trialCharSplitView = document.getElementById('char-split-view');
+        const trialCharVideoWrapper = document.getElementById('char-video-wrapper');
+        const trialCharModalVideo = document.getElementById('char-modal-video');
+        const trialPlayOverlay = document.getElementById('video-play-overlay');
+        const trialCharModalImages = document.getElementById('char-modal-images');
+        const trialCharImg1 = document.getElementById('char-img-1');
+        const trialCharImg2 = document.getElementById('char-img-2');
+        const trialCharModalText = document.getElementById('char-modal-text');
+
+        trialCharTriggers.forEach(char => {
+            char.dataset.currentBaseSrc = char.src;
+            char.addEventListener('mouseenter', () => {
+                if(isTrialVotingTime) return; 
+                let orderAttr = trialCurrentRound === 1 ? 'data-order' : 'data-r2-order';
+                let order = parseInt(char.getAttribute(orderAttr));
+                if (order >= trialCurrentSequenceStep) { 
+                    char.src = char.getAttribute(trialCurrentRound === 1 ? 'data-r1-pose' : 'data-r2-pose');
+                }
+            });
+            char.addEventListener('mouseleave', () => { 
+                if(isTrialVotingTime) return;
+                char.src = char.dataset.currentBaseSrc; 
+            });
+        });
+
+        function updateTurnIndicator() {
+            if (isTrialVotingTime) {
+                trialCharTriggers.forEach(char => char.classList.remove('my-turn'));
+                return;
+            }
+            trialCharTriggers.forEach(char => {
+                let orderAttr = trialCurrentRound === 1 ? 'data-order' : 'data-r2-order';
+                let order = parseInt(char.getAttribute(orderAttr));
+                if (order === trialCurrentSequenceStep) {
+                    char.classList.add('my-turn');
+                } else {
+                    char.classList.remove('my-turn');
+                }
+            });
+        }
+
+        trialCharTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                
+                if (isTrialVotingTime) {
+                    const fullImg = trigger.getAttribute('data-full-img');
+                    const charName = trigger.getAttribute('data-name');
+                    const theme = trigger.getAttribute('data-r1-theme');
+                    const charId = trigger.getAttribute('data-id');
+                    openVotingConfirm(fullImg, charName, theme, charId);
+                    return;
+                }
+
+                let orderAttr = trialCurrentRound === 1 ? 'data-order' : 'data-r2-order';
+                let order = parseInt(trigger.getAttribute(orderAttr));
+                if (order !== trialCurrentSequenceStep) return; 
+
+                let rPrefix = trialCurrentRound === 1 ? 'data-r1-' : 'data-r2-';
+                const type = trigger.getAttribute(rPrefix + 'type');
+                const targetPose = trigger.getAttribute(rPrefix + 'pose');
+                if(!type) return; 
+
+                trigger.dataset.currentBaseSrc = targetPose; trigger.src = targetPose;
+
+                if (type === 'vn') {
+                    const sprites = trigger.getAttribute(rPrefix + 'vn-sprites').split('|');
+                    const texts = trigger.getAttribute(rPrefix + 'vn-texts').split('|');
+                    const name = trigger.getAttribute(rPrefix + 'vn-name');
+                    const theme = trigger.getAttribute(rPrefix + 'vn-theme');
+                    
+                    startVNSession(texts, sprites, name, theme, () => {
+                        let endPose = trigger.getAttribute('data-r2-end-pose');
+                        if (endPose) {
+                            trigger.dataset.currentBaseSrc = endPose; trigger.src = endPose;
+                            trigger.classList.add('phase-3'); 
+                        }
+
+                        trialCurrentSequenceStep++;
+                        
+                        if (trialCurrentRound === 2 && trialCurrentSequenceStep === 6) {
+                            setTimeout(() => {
+                                startVNSession(monokumaEndData.texts, monokumaEndData.sprites, monokumaEndData.name, monokumaEndData.theme, () => {
+                                    startVotingPhase();
+                                });
+                            }, 500);
+                        } else {
+                            updateTurnIndicator();
+                        }
+                    });
+                } 
+                else {
+                    const theme = trigger.getAttribute(rPrefix + 'theme');
+                    const text = trigger.getAttribute(rPrefix + 'text'); 
+                    activeCharElement = trigger; 
+                    
+                    trialCurrentSequenceStep++;
+                    
+                    trialCharModalWrapper.className = 'char-modal-wrapper ' + theme;
+                    trialCharModalText.innerHTML = text || '';
+                    trialCharSplitView.classList.add('with-text', 'active');
+
+                    if (type === 'video') {
+                        trialCharModalImages.style.display = 'none'; trialCharVideoWrapper.style.display = 'flex';
+                        trialPlayOverlay.style.display = 'flex'; trialCharModalVideo.src = trigger.getAttribute(rPrefix + 'src');
+                        if(trigger.getAttribute('data-vertical') === 'true') trialCharModalVideo.classList.add('is-vertical');
+                        else trialCharModalVideo.classList.remove('is-vertical');
+                    } 
+                    else if (type === 'interactive') {
+                        trialCharVideoWrapper.style.display = 'none'; trialCharModalVideo.pause();
+                        trialCharModalImages.style.display = 'flex';
+                        trialCharImg1.src = trigger.getAttribute(rPrefix + 'img1'); trialCharImg2.src = trigger.getAttribute(rPrefix + 'img2');
+                        
+                        let aTitle = trigger.getAttribute('data-alibi-title');
+                        let aDesc = trigger.getAttribute('data-alibi-desc');
+                        if(aTitle && aDesc) {
+                            addNewEvidence(aTitle, aDesc, `<div class="ev-photo" style="background:#111; color:#ff9bb5; display:flex; align-items:center; justify-content:center; font-family:'Oswald'; font-size:2rem; border:2px dashed #ff9bb5;">ПИСЬМЕННЫЕ ПОКАЗАНИЯ</div>`);
+                        }
+                    }
+                    setTimeout(() => { trialCharModalWrapper.classList.add('active'); }, 150);
+                }
+            });
+        });
+
+        if (trialPlayOverlay) {
+            trialPlayOverlay.addEventListener('click', () => { 
+                trialCharModalVideo.play(); 
+                
+                if(activeCharElement && trialCurrentRound === 1) {
+                    let aTitle = activeCharElement.getAttribute('data-alibi-title');
+                    let aDesc = activeCharElement.getAttribute('data-alibi-desc');
+                    let vSrc = activeCharElement.getAttribute('data-r1-src');
+                    if(aTitle && aDesc && vSrc) {
+                        let photoHtml = `<div class="ev-photo" style="background:#111; padding:5px; border: 2px solid #e5b326;"><video src="${vSrc}" controls style="width:100%; height:100%; object-fit:contain; border-radius:5px; outline:none;"></video></div>`;
+                        addNewEvidence(aTitle, aDesc, photoHtml);
+                    }
+                }
+            });
+        }
+        if (trialCharModalVideo) {
+            trialCharModalVideo.addEventListener('play', () => { trialPlayOverlay.style.display = 'none'; });
+            trialCharModalVideo.addEventListener('pause', () => { trialPlayOverlay.style.display = 'flex'; });
+        }
+
+        function closeTrialCharModal() {
+            trialCharModalWrapper.classList.remove('active');
+            trialCharModalVideo.pause();
+            trialCharModalVideo.currentTime = 0; 
+            activeCharElement = null;
+
+            if (trialCurrentSequenceStep > 5 && trialCurrentRound === 1) {
+                trialCurrentSequenceStep = 0; 
+                trialCurrentRound = 2; 
+            }
+            updateTurnIndicator();
+            manageBGM(); 
+        }
+
+        if (trialCharCloseBtn) trialCharCloseBtn.addEventListener('click', closeTrialCharModal);
+        if (trialCharModalWrapper) trialCharModalWrapper.addEventListener('click', (e) => { if (e.target === trialCharModalWrapper) closeTrialCharModal(); });
+
+        // --- ГОЛОСОВАНИЕ И КАЗНИ ---
+        let voteTimerInterval;
+        
+        function startVotingPhase() {
+            isTrialVotingTime = true;
+            
+            currentActiveBGM = bgmVoting;
+            manageBGM();
+            
+            trialCharTriggers.forEach(char => {
+                char.classList.remove('my-turn');
+                char.classList.add('voting-active');
+            });
+            
+            document.getElementById('voting-header').classList.add('active');
+            
+            let time = 180; 
+            const timerEl = document.getElementById('voting-timer');
+            
+            voteTimerInterval = setInterval(() => {
+                time--;
+                let m = Math.floor(time / 60);
+                let s = time % 60;
+                timerEl.innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+                
+                if (time <= 0) {
+                    clearInterval(voteTimerInterval);
+                    timerEl.innerText = "00:00";
+                    timerEl.style.color = "#ff4d4d";
+                }
+            }, 1000);
+        }
+
+        const voteModal = document.getElementById('vote-confirm-modal');
+        const voteContent = document.getElementById('vote-confirm-content');
+        const voteImg = document.getElementById('vote-confirm-img');
+        const voteName = document.getElementById('vote-confirm-name');
+        const voteBtnNo = document.getElementById('vote-btn-no');
+        const voteBtnYes = document.getElementById('vote-btn-yes');
+        
+        const wrongVoteModal = document.getElementById('wrong-vote-modal');
+        const wrongVoteMediaContainer = document.getElementById('wrong-vote-media-container');
+        const wrongVoteClose = document.getElementById('wrong-vote-close');
+
+        function openVotingConfirm(imgSrc, name, themeClass, charId) {
+            voteImg.src = imgSrc;
+            voteName.innerText = name;
+            voteContent.className = 'vote-confirm-content ' + themeClass;
+            trialCurrentVoteTarget = charId; 
+            voteModal.classList.add('active');
+        }
+
+        if(voteBtnNo) voteBtnNo.addEventListener('click', () => { voteModal.classList.remove('active'); });
+
+        if(voteBtnYes) {
+            voteBtnYes.addEventListener('click', () => {
+                voteModal.classList.remove('active');
+                
+                if (trialCurrentVoteTarget === 'rantaro') {
+                    clearInterval(voteTimerInterval);
+                    document.getElementById('voting-header').classList.remove('active');
+                    
+                    currentActiveBGM = null;
+                    allBgms.forEach(a => a.pause());
+                    
+                    startVNSession(rantaroFinalData.texts, rantaroFinalData.sprites, rantaroFinalData.name, rantaroFinalData.theme, () => {
+                        
+                        const execContainer = document.getElementById('execution-container');
+                        const execVideo = document.getElementById('execution-video');
+                        
+                        execContainer.style.display = 'flex';
+                        execVideo.volume = volSlider.value;
+                        execVideo.play().catch(e=>console.log(e));
+                        
+                        execVideo.onended = () => {
+                            execContainer.style.display = 'none';
+                            
+                            startVNSession(
+                                monokumaPostExecutionData.texts, 
+                                monokumaPostExecutionData.sprites, 
+                                monokumaPostExecutionData.name, 
+                                monokumaPostExecutionData.theme, 
+                                () => {
+                                    document.getElementById('final-videos-modal').style.display = 'flex';
+                                }
+                            );
+                        };
+                    });
+                    
+                } else {
+                    if (wrongVoteMediaMap[trialCurrentVoteTarget]) {
+                        wrongVoteMediaContainer.innerHTML = wrongVoteMediaMap[trialCurrentVoteTarget];
+                        let wvVideo = wrongVoteMediaContainer.querySelector('video');
+                        if(wvVideo) { wvVideo.volume = volSlider.value; }
+                        
+                        wrongVoteModal.style.display = 'flex';
+                    }
+                }
+            });
+        }
+
+        if(wrongVoteClose) {
+            wrongVoteClose.addEventListener('click', () => {
+                wrongVoteModal.style.display = 'none';
+                let wvVideo = wrongVoteMediaContainer.querySelector('video');
+                if (wvVideo) {
+                    wvVideo.pause();
+                    wvVideo.currentTime = 0;
+                }
+                wrongVoteMediaContainer.innerHTML = ''; 
+                manageBGM(); 
+            });
+        }
+
+        const finalVideosCloseBtn = document.getElementById('final-videos-close');
+        if (finalVideosCloseBtn) {
+            finalVideosCloseBtn.addEventListener('click', () => {
+                document.getElementById('final-videos-modal').style.display = 'none';
+                document.querySelectorAll('.final-video-item').forEach(v => v.pause());
+                
+                currentActiveBGM = null;
+                manageBGM();
+                
+                const endCurtainContainer = document.getElementById('ending-curtain-container');
+                const endCurtainVideo = document.getElementById('ending-curtain-video');
+                
+                endCurtainContainer.style.display = 'flex';
+                endCurtainVideo.volume = volSlider.value;
+                endCurtainVideo.play().catch(e=>console.log(e));
+            });
+        }
+
+    </script>
+</body>
+</html>
